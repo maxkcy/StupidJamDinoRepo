@@ -37,15 +37,16 @@ public class TouchUpPacket implements Transferable<TouchUpPacket> {
         this.y = y;
     }
 
-    /*
+
        ServerWebSocket serverWebSocket; //unitialized. this comment to show how pointers work.
+    //comment out part under for html build
     public void setServerWebSocket(ServerWebSocket serverWebSocket) {
         this.serverWebSocket = serverWebSocket;
     }
 
     public ServerWebSocket getServerWebSocket() {
         return serverWebSocket;
-    }*/
+    }
 
 
     @Override

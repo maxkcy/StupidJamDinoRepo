@@ -36,7 +36,7 @@ public class TouchDownPacket implements Transferable<TouchDownPacket> {
     }
 
     //comment out stuff under for html dist builds
-   /* ServerWebSocket serverWebSocket; //unitialized. this comment to show how pointers work.
+    ServerWebSocket serverWebSocket; //unitialized. this comment to show how pointers work.
 
     public void setServerWebSocket(ServerWebSocket serverWebSocket) {
         this.serverWebSocket = serverWebSocket;
@@ -44,7 +44,7 @@ public class TouchDownPacket implements Transferable<TouchDownPacket> {
 
     public ServerWebSocket getServerWebSocket() {
         return serverWebSocket;
-    }*/
+    }
 
 
 
@@ -58,4 +58,5 @@ public class TouchDownPacket implements Transferable<TouchDownPacket> {
     public TouchDownPacket deserialize(Deserializer deserializer) throws SerializationException {
         return new TouchDownPacket(deserializer.deserializeFloat(), deserializer.deserializeFloat());
     }
+
 }

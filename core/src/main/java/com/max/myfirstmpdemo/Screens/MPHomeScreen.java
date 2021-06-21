@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.max.myfirstmpdemo.GameAssetsAndStuff.GameAssets;
@@ -22,7 +23,7 @@ MyFirstMpDemoMain game;
 public GameAssets gameAssets;
 public Stage stage;
 public  Skin skin;
-public ImageTextButton joinGameButtom;
+public TextButton joinGameButtom;
 
 
     public MPHomeScreen(MyFirstMpDemoMain game) {
@@ -36,9 +37,9 @@ public ImageTextButton joinGameButtom;
         font = gameAssets.getSgx().getFont("font");
         stage = new Stage(new FitViewport(600,450));
         Gdx.input.setInputProcessor(this.stage);
-        skin = gameAssets.getSgx();
+        skin = gameAssets.getDinoskin();
 
-       joinGameButtom = new ImageTextButton("Join Game!!!", skin);
+       joinGameButtom = new TextButton("Join Game!!!", skin);
         joinGameButtom.setPosition(300 - joinGameButtom.getWidth()/2, 225);
         stage.addActor(joinGameButtom);
 
@@ -70,9 +71,9 @@ public ImageTextButton joinGameButtom;
         font.draw(game.getBatch(),string , 85, 75);
         game.getBatch().end();
 
-            if(Gdx.input.isKeyPressed(Input.Keys.ENTER)){
+            if(Gdx.input.isKeyPressed(Input.Keys.ANY_KEY)){
                 font.setColor(.75f,.75f,.5f,.75f);
-                string = "you pressed the enter key  :) ... \n this is a testing demo";
+                string = "you pressed the " + Input.Keys.ANY_KEY  + " key  :) ...";
 
             }
         stage.draw();
