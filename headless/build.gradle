@@ -1,0 +1,32 @@
+apply plugin: 'application'
+
+sourceCompatibility = 8.0
+mainClassName = 'com.max.myfirstmpdemo.headless.HeadlessLauncher'
+eclipse.project.name = appName + '-headless'
+
+dependencies {
+	implementation project(':shared')
+
+	implementation "com.badlogicgames.gdx:gdx-backend-headless:$gdxVersion"
+	implementation "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
+	implementation "com.github.MrStahlfelge.gdx-websockets:common:$websocketVersion"
+	api "com.github.MrStahlfelge.gdx-websockets:serialization:$websocketSerializationVersion"
+
+	api "com.github.tommyettinger:jbump:$jbumpVersion"
+	api 'io.vertx:vertx-core:4.0.2'
+	api project(':shared')
+
+}
+
+//TEt told me to add this to build jar. command: java -jar serverfile
+jar {
+	archiveBaseName.set(appName)
+	dependsOn configurations.runtimeClasspath
+	from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
+	manifest {
+		attributes 'Main-Class': project.mainClassName
+	}
+	doLast {
+		file(archiveFile).setExecutable(true, false)
+	}
+}
