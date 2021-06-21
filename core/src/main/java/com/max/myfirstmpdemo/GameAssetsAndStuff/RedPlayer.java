@@ -30,14 +30,14 @@ public class RedPlayer {
     public RedPlayer(MyFirstMpDemoMain game) {
         this.game = game;
 
-        keyframe = new Sprite(game.splashScreen.gameAssets.textureAtlas.createSprites().get(0));
+        keyframe = new Sprite(game.dinoSplashScreen.gameAssets.textureAtlas.createSprites().get(0));
         keyframe.setFlip(true, false);
         keyframe.setRegionWidth(26);
         keyframe.setRegionHeight(26);
 
-        redIdleAnimation = new Animation<TextureRegion>(1/10f, game.splashScreen.gameAssets.textureAtlas.findRegions("RedIdle"));
-        redRunningAnimation = new Animation<TextureRegion>(1/10f, game.splashScreen.gameAssets.textureAtlas.findRegions("RedRun"));
-        redKickingAnimation = new Animation<TextureRegion>(1/10f, game.splashScreen.gameAssets.textureAtlas.findRegions("RedKick"));
+        redIdleAnimation = new Animation<TextureRegion>(1/10f, game.dinoSplashScreen.gameAssets.textureAtlas.findRegions("RedIdle"));
+        redRunningAnimation = new Animation<TextureRegion>(1/10f, game.dinoSplashScreen.gameAssets.textureAtlas.findRegions("RedRun"));
+        redKickingAnimation = new Animation<TextureRegion>(1/10f, game.dinoSplashScreen.gameAssets.textureAtlas.findRegions("RedKick"));
 
         redIdleAnimation.setPlayMode(Animation.PlayMode.LOOP);
         redRunningAnimation.setPlayMode(Animation.PlayMode.LOOP);

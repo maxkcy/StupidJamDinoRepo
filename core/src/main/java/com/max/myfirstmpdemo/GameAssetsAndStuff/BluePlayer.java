@@ -30,14 +30,14 @@ public class BluePlayer {
     public BluePlayer(MyFirstMpDemoMain game) {
         this.game = game;
 
-        keyframe = new Sprite(game.splashScreen.gameAssets.textureAtlas.createSprites().get(0));
+        keyframe = new Sprite(game.dinoSplashScreen.gameAssets.textureAtlas.createSprites().get(0));
         keyframe.setFlip(true, false);
         keyframe.setRegionWidth(26);
         keyframe.setRegionHeight(26);
 
-        blueIdleAnimation = new Animation<TextureRegion>(1/10f, game.splashScreen.gameAssets.textureAtlas.findRegions("BlueIdle"));
-        blueRunningAnimation = new Animation<TextureRegion>(1/10f, game.splashScreen.gameAssets.textureAtlas.findRegions("BlueRun"));
-        blueKickingAnimation = new Animation<TextureRegion>(1/10f, game.splashScreen.gameAssets.textureAtlas.findRegions("BlueKick"));
+        blueIdleAnimation = new Animation<TextureRegion>(1/10f, game.dinoSplashScreen.gameAssets.textureAtlas.findRegions("BlueIdle"));
+        blueRunningAnimation = new Animation<TextureRegion>(1/10f, game.dinoSplashScreen.gameAssets.textureAtlas.findRegions("BlueRun"));
+        blueKickingAnimation = new Animation<TextureRegion>(1/10f, game.dinoSplashScreen.gameAssets.textureAtlas.findRegions("BlueKick"));
 
         blueIdleAnimation.setPlayMode(Animation.PlayMode.LOOP);
         blueRunningAnimation.setPlayMode(Animation.PlayMode.LOOP);

@@ -1,0 +1,142 @@
+{
+com.badlogic.gdx.graphics.g2d.BitmapFont: {
+	roboto: {
+		file: roboto.fnt
+	}
+	StoneHinge: {
+		file: StoneHinge.fnt
+	}
+	varela: {
+		file: varela.fnt
+	}
+}
+com.badlogic.gdx.graphics.Color: {
+	RGBA_0_0_0_255: {
+		r: 0
+		g: 0
+		b: 0
+		a: 1
+	}
+	RGBA_255_255_255_255: {
+		r: 1
+		g: 1
+		b: 1
+		a: 1
+	}
+}
+com.badlogic.gdx.scenes.scene2d.utils.TiledDrawable: {
+	KnobBefore1: {
+		region: KnobBefore
+		color: RGBA_255_255_255_255
+		minWidth: 50
+		minHeight: 25
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.Button$ButtonStyle: {
+	default: {
+		up: Button2_up
+		down: Button2_down2
+		over: Button2_down
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.CheckBox$CheckBoxStyle: {
+	default: {
+		checkboxOn: checkbox2_unchecked
+		checkboxOff: checkbox2_checked
+		font: StoneHinge
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton$ImageTextButtonStyle: {
+	default: {
+		imageUp: Button2_up
+		imageDown: Button2_down
+		font: StoneHinge
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle: {
+	default: {
+		font: StoneHinge
+	}
+	other: {
+		font: varela
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.List$ListStyle: {
+	default: {
+		font: StoneHinge
+		fontColorSelected: RGBA_255_255_255_255
+		fontColorUnselected: RGBA_255_255_255_255
+		selection: Button1_up
+		background: Button1_down
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.ProgressBar$ProgressBarStyle: {
+	default-horizontal: {
+		background: TexfieldBackground
+		knob: ProgressBar_1
+		knobBefore: KnobBefore1
+	}
+	default-vertical: {
+		background: TexfieldBackground
+		knob: DinoKnob_1
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.ScrollPane$ScrollPaneStyle: {
+	default: {
+		background: TexfieldBackground
+		vScrollKnob: DinoKnob_1
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.SelectBox$SelectBoxStyle: {
+	default: {
+		font: StoneHinge
+		fontColor: RGBA_255_255_255_255
+		background: checkbox2_unchecked
+		scrollStyle: default
+		listStyle: default
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.Slider$SliderStyle: {
+	default-horizontal: {
+		background: TexfieldBackground
+		knob: DinoKnob_1
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.SplitPane$SplitPaneStyle: {
+	default-horizontal: {
+		handle: DinoKnob_1
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {
+	default: {
+		font: StoneHinge
+		up: Button2_up
+		down: Button2_down2
+	}
+	google: {
+		font: roboto
+		fontColor: RGBA_0_0_0_255
+		up: btn_google_signin_light_normal_hdpi
+		down: btn_google_signin_light_pressed_hdpi
+		over: btn_google_signin_light_focus_hdpi
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.TextField$TextFieldStyle: {
+	default: {
+		font: StoneHinge
+		fontColor: RGBA_255_255_255_255
+		background: TexfieldBackground
+		cursor: DinoKnob_1
+	}
+	chat: {
+		font: varela
+		fontColor: RGBA_255_255_255_255
+		background: TexfieldBackground
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.TextTooltip$TextTooltipStyle: {
+	default: {
+		label: default
+	}
+}
+}

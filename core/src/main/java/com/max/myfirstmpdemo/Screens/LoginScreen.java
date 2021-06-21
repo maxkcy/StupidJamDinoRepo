@@ -1,16 +1,11 @@
 package com.max.myfirstmpdemo.Screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.scenes.scene2d.Event;
-import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -18,16 +13,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.max.myfirstmpdemo.GameAssetsAndStuff.GameAssets;
-
 import com.max.myfirstmpdemo.MyFirstMpDemoMain;
-
 
 import de.golfgl.gdxgamesvcs.GpgsClient;
 import de.golfgl.gdxgamesvcs.IGameServiceClient;
-import de.golfgl.gdxgamesvcs.IGameServiceListener;
-import de.golfgl.gdxgamesvcs.NoGameServiceClient;
 
 public class LoginScreen extends ScreenAdapter {
     private Stage stage;
@@ -38,97 +29,39 @@ public class LoginScreen extends ScreenAdapter {
     public LoginScreen(MyFirstMpDemoMain game) {
         this.game = game;
     }
+    public TextField userName;
 
     @Override
     public void show() {
         gameAssets = new GameAssets(game);
-        stage = new Stage(new ScreenViewport());
-        skin = gameAssets.getSgx();
+        stage = new Stage(new FitViewport(700,700));
+        skin = gameAssets.getDinoskin();
         Gdx.input.setInputProcessor(stage);
 
         Table table = new Table();
         table.setFillParent(true);
 
-        Label signupLabel = new Label("SIGN UP?", skin);
-        signupLabel.setEllipsis("...");
-        signupLabel.addListener(new ClickListener(){
-
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                super.clicked(event, x, y);
-                System.out.println("''Sign Up?'' Label clicked");
-            }
-        });
-        table.add(signupLabel).colspan(4);
+        Label label = new Label("It's Time To LOGIN!", skin);
+        table.add(label);
 
         table.row();
-        TextField userName = new TextField("User Name", skin);
+        Table table1 = new Table();
+
+        label = new Label("What should other dinos call you?", skin);
+        table1.add(label).expandX();
+
+        userName = new TextField("Handle", skin);
+        table1.add(userName).expandX().align(Align.center);
         userName.setAlignment(Align.center);
-
-        table.add(userName).align(Align.left);
-
-        Label saveLabel = new Label("Save:", skin);
-        saveLabel.setEllipsis("...");
-        table.add(saveLabel).align(Align.right);
-
-        CheckBox checkBox = new CheckBox("Save:", skin);
-        table.add(checkBox).align(Align.left);
+        table.add(table1);
 
         table.row();
-       TextField textFieldPass = new TextField("password", skin);
-        textFieldPass.setAlignment(Align.center);
-        textFieldPass.isPasswordMode();
-        table.add(textFieldPass);
-
-        saveLabel = new Label("Save:", skin);
-        saveLabel.setEllipsis("...");
-        table.add(saveLabel).align(Align.right);
-
-        checkBox = new CheckBox(null, skin);
-        table.add(checkBox).align(Align.left);
+        CheckBox checkBox = new CheckBox("Save handle for next time?", skin);
+        table.add(checkBox);
 
         table.row();
-        TextButton textButtonLogin = new TextButton("Login", skin);
-        table.add(textButtonLogin);
-
-        table.row();
-        ImageTextButton imageTextButton = new ImageTextButton("Google", skin);
-        imageTextButton.addListener(new ClickListener(){
-                                        @Override
-                                        public void clicked(InputEvent event, float x, float y) {
-                                            Gdx.app.log(this.toString(), "Google Login button clicked");
-                                            Gdx.app.log(this.toString(), "is session logged in? "+ game.gsClient.logIn());
-                                            game.gsClient.logIn();
-                                            Gdx.app.log(this.toString(), "is session logged in now? "+ game.gsClient.logIn());
-                                            Gdx.app.log(this.toString(), "" + game.gsClient.getPlayerDisplayName());
-                                            Gdx.app.log(this.toString(), "" + game.gsClient.getGameServiceId());
-                                            userName.setText(game.gsClient.getPlayerDisplayName());
-
-                                        }
-                                    }
-        );
-
-        table.add(imageTextButton);
-
-        imageTextButton = new ImageTextButton("Facebook", skin);
-        table.add(imageTextButton).align(Align.left);
-
-        imageTextButton = new ImageTextButton("Apple", skin);
-        table.add(imageTextButton);
-
-        stage.addActor(table);
-
-        userName.addListener(new EventListener() {
-            @Override
-            public boolean handle(Event event) {
-                if(Gdx.input.isKeyPressed(Input.Keys.ENTER)){
-                            table.getCell(textFieldPass).getActor().setText("poopy");
-                }
-                return true;
-            }
-        });
-
-        textButtonLogin.addListener(new ClickListener(){
+        TextButton textButton = new TextButton("Click Here To Begin", skin);
+        textButton.addListener(new ClickListener(){
 
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -136,41 +69,66 @@ public class LoginScreen extends ScreenAdapter {
                 game.clientWS.init();
                 //Gdx.app.postRunnable(()-> game.setScreen(game.mpHomeScreen));
                 System.out.println("new Screen");
-
             }
         });
-
-        /*stage = new Stage(new ScreenViewport());
-        skin = new Skin(Gdx.files.internal("Skins/sgx-ui.json"));
-        Gdx.input.setInputProcessor(stage);
-
-        Table table = new Table();
-        table.setFillParent(true);
-
-        table.add();
-
-        Button button = new Button(skin);
-        table.add(button);
-
-        table.add();
+        table.add(textButton);
 
         table.row();
-        table.add();
+        textButton = new TextButton("Continue with Google?", skin, "google");
+        textButton.addListener(new ClickListener(){
+                                        @Override
+                                        public void clicked(InputEvent event, float x, float y) {
+                                            if (game.gsClient == null){
+                                                game.gsClient = new GpgsClient().initialize("FinalDinoTest",
+                                                        Gdx.files.internal("gpgs-client_secret_5.json"), true);
+                                                Gdx.app.log(this.toString(), "Client Initialized");
+                                                System.out.println(Gdx.files.internal("gpgs-client_secret_3.json").readString());//one.. 3 works
+                                            }else {game.gsClient.resumeSession();}
+                                            game.gsClient.setListener(game.gsvlistener);
+                                            if (game.gsClient.isConnectionPending() == true) {
+                                                boolean waitingtoconnect = true;
+                                                Gdx.app.log(this.toString(), "is connection pending? " + game.gsClient.isConnectionPending());
+                                                while (waitingtoconnect) {
+                                                    if (game.gsClient.isConnectionPending() == false) {
+                                                        waitingtoconnect = false;
+                                                        Gdx.app.log(this.toString(), "is connection pending now? " + game.gsClient.isConnectionPending());
+                                                    }
+                                                }
 
-        ImageTextButton imageTextButton = new ImageTextButton("asdfadsf", skin);
-        table.add(imageTextButton);
+                                            }
 
-        table.add();
+
+                                            Gdx.app.log(this.toString(), "is Session Active? " + game.gsClient.isSessionActive());
+
+
+                                            if (game.gsClient.isSessionActive() == false) {
+                                                //game.gsClient.logOff();
+                                                Gdx.app.log(this.toString(), "GS_ERROR: Cannot sign in: No credentials or session id given.");
+                                                //game.gsClient.logIn();
+                                            }
+
+                                            Gdx.app.log(this.toString(), "player display name: " +game.gsClient.getPlayerDisplayName());
+                                            Gdx.app.log(this.toString(), "Game Service Id: " + game.gsClient.getGameServiceId());
+                                            Gdx.app.log(this.toString(), "is feature supported: " + game.gsClient.isFeatureSupported(IGameServiceClient.GameServiceFeature.ShowAchievementsUI));
+
+
+
+                                            Gdx.app.log(this.toString(), "Google Login button clicked");
+                                            Gdx.app.log(this.toString(), "is session logged in? "+ game.gsClient.logIn());
+                                            game.gsClient.logIn();
+                                            Gdx.app.log(this.toString(), "is session logged in now? "+ game.gsClient.logIn());
+                                            Gdx.app.log(this.toString(), "" + game.gsClient.getPlayerDisplayName());
+                                            Gdx.app.log(this.toString(), "" + game.gsClient.getGameServiceId());
+                                            userName.setText(game.gsClient.getPlayerDisplayName());
+                                        }
+                                    }
+        );
+        table.add(textButton);
 
         table.row();
-        table.add();
-
-        Label label = new Label("Lorem ipsum", skin);
-        table.add(label);
-
-        table.add();
-        stage.addActor(table);*/
-
+        textButton = new TextButton("How To Play ", skin);
+        table.add(textButton);
+        stage.addActor(table);
 
     }
 

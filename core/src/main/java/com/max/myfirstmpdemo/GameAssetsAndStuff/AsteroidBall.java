@@ -24,9 +24,9 @@ public class AsteroidBall {
     public AsteroidBall(MyFirstMpDemoMain game) {
         this.game = game;
         //asteroidAnimation = new Animation<TextureRegion>(1/5f, game.splashScreen.gameAssets.asteroidTextureAtlas.findRegions("asteroid"));
-        asteroidAnimation = new Animation<TextureRegion>(1/25f, game.splashScreen.gameAssets.asteroidNewAtlas.findRegions("a10"));
+        asteroidAnimation = new Animation<TextureRegion>(1/25f, game.dinoSplashScreen.gameAssets.asteroidNewAtlas.findRegions("a10"));
         asteroidAnimation.setPlayMode(Animation.PlayMode.LOOP);
-        keyframe = new Sprite(game.splashScreen.gameAssets.asteroidTextureAtlas.createSprites().get(0));
+        keyframe = new Sprite(game.dinoSplashScreen.gameAssets.asteroidTextureAtlas.createSprites().get(0));
         keyframe.setSize(42, 42);
         keyframe.setFlip(true, false);
         unInitSpriteTest = keyframe;

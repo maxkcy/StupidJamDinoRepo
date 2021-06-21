@@ -1,18 +1,13 @@
 package com.max.myfirstmpdemo;
 
-import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.github.czyzby.websocket.WebSocket;
 import com.github.czyzby.websocket.WebSockets;
-import com.github.czyzby.websocket.serialization.impl.ManualSerializer;
 import com.max.myfirstmpdemo.ClientWS.ClientWS;
-import com.max.myfirstmpdemo.LoadingPathsAndScreen.Loader;
+import com.max.myfirstmpdemo.Screens.DinoSplashScreen;
 import com.max.myfirstmpdemo.Screens.LoginScreen;
 import com.max.myfirstmpdemo.Screens.MPHomeScreen;
 import com.max.myfirstmpdemo.Screens.RoomScreen;
@@ -20,7 +15,6 @@ import com.max.myfirstmpdemo.Screens.SplashScreen;
 
 import de.golfgl.gdxgamesvcs.IGameServiceClient;
 import de.golfgl.gdxgamesvcs.IGameServiceListener;
-import de.golfgl.gdxgamesvcs.NoGameServiceClient;
 
 /** {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms. */
 public class MyFirstMpDemoMain extends Game  {
@@ -29,6 +23,7 @@ public class MyFirstMpDemoMain extends Game  {
 	private SpriteBatch batch;
 	private AssetManager assetManager;
 	public SplashScreen splashScreen;
+	public DinoSplashScreen dinoSplashScreen;
 	public ClientWS clientWS;
 	public LoginScreen loginScreen;
 	public MPHomeScreen mpHomeScreen;
@@ -52,11 +47,11 @@ public class MyFirstMpDemoMain extends Game  {
 		batch = new SpriteBatch();
 		assetManager = new AssetManager();
 		splashScreen = new SplashScreen(this);
-
+		dinoSplashScreen = new DinoSplashScreen(this);
 
 		clientWS = new ClientWS(this);
 
-		Gdx.app.postRunnable(()-> setScreen(splashScreen));
+		Gdx.app.postRunnable(()-> setScreen(dinoSplashScreen));
 		Gdx.input.setCatchKey(Input.Keys.SPACE, true);//disables gwt, android keys for scrolling
 
 	}
@@ -65,7 +60,7 @@ public class MyFirstMpDemoMain extends Game  {
 	public void render() {
 		//Gdx.gl.glClearColor(.8f, 1, .9f, 1);
 		//Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		if(Gdx.input.isKeyJustPressed(Input.Keys.F)){
+		if(Gdx.input.isKeyJustPressed(Input.Keys.F2)){
 			Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode()); //works across all screens because this render is called before all screens aka super.render() which calls render from next screen
 		}
 		/*if(Gdx.input.isKeyPressed(Input.Keys.N)){

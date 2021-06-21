@@ -10,6 +10,7 @@ public class LoadingPaths {
 
     public List<String> getSkinPaths(){
         List<String> list = new ArrayList<>();
+        list.add(SkinPaths.DINOSKIN);
         list.add(SkinPaths.SKIN_1_CLEANCRISPY);
         list.add(SkinPaths.Skin_2_SGX);
         return list;

@@ -29,17 +29,18 @@ public class Lwjgl3Launcher {
 				//Gdx.app.log(this.toString(), "Google Login button clicked");
 				//System.out.println(Gdx.files.internal("gpgs-client_secret.json").readString());
 
-				if (gsClient == null){
+				/*if (gsClient == null){
 					gsClient = new GpgsClient().initialize("FinalDinoTest",
 							Gdx.files.internal("gpgs-client_secret_5.json"), true);
 					Gdx.app.log(this.toString(), "Client Initialized");
 					System.out.println(Gdx.files.internal("gpgs-client_secret_3.json").readString());//one.. 3 works
-				}
+				}*/
 
 				gsvlistener = new IGameServiceListener() {
 					@Override
 					public void gsOnSessionActive() {
 						Gdx.app.log(this.toString(), "GPS connected/active");
+						loginScreen.userName.setText(gsClient.getPlayerDisplayName());
 					}
 
 					@Override
@@ -56,34 +57,41 @@ public class Lwjgl3Launcher {
 				};
 
 				// for getting callbacks from the client
-				gsClient.setListener(gsvlistener);
+				if(gsClient != null) {
+					gsClient.setListener(gsvlistener);
 
-				// establish a connection to the game service without error messages or login screens
-				gsClient.resumeSession();
+					// establish a connection to the game service without error messages or login screens
+					gsClient.resumeSession();
 
 
-				if(gsClient.isConnectionPending() == true){
-					boolean waitingtoconnect = true;
-					Gdx.app.log(this.toString(), "is connection pending? " + gsClient.isConnectionPending());
-					while(waitingtoconnect){
-						if(gsClient.isConnectionPending() == false){
-							waitingtoconnect = false;
-							Gdx.app.log(this.toString(), "is connection pending now? " + gsClient.isConnectionPending());
+					if (gsClient.isConnectionPending() == true) {
+						boolean waitingtoconnect = true;
+						Gdx.app.log(this.toString(), "is connection pending? " + gsClient.isConnectionPending());
+						while (waitingtoconnect) {
+							if (gsClient.isConnectionPending() == false) {
+								waitingtoconnect = false;
+								Gdx.app.log(this.toString(), "is connection pending now? " + gsClient.isConnectionPending());
+							}
 						}
+
 					}
 
-				}
-				Gdx.app.log(this.toString(), "is Session Active? " + gsClient.isSessionActive());
-				if(gsClient.isSessionActive() == false){
-					//game.gsClient.logOff();
-					Gdx.app.log(this.toString(),"GS_ERROR: Cannot sign in: No credentials or session id given.");
-					//game.gsClient.logIn();
-				}
 
-				Gdx.app.log(this.toString(),"player display name: " + gsClient.getPlayerDisplayName());
-				Gdx.app.log(this.toString(),"Game Service Id: " + gsClient.getGameServiceId());
-				Gdx.app.log(this.toString(),"is feature supported: " + gsClient.isFeatureSupported(IGameServiceClient.GameServiceFeature.ShowAchievementsUI));
+						Gdx.app.log(this.toString(), "is Session Active? " + gsClient.isSessionActive());
 
+
+					if (gsClient.isSessionActive() == false) {
+						//game.gsClient.logOff();
+						Gdx.app.log(this.toString(), "GS_ERROR: Cannot sign in: No credentials or session id given.");
+						//game.gsClient.logIn();
+					}
+
+					Gdx.app.log(this.toString(), "player display name: " + gsClient.getPlayerDisplayName());
+					Gdx.app.log(this.toString(), "Game Service Id: " + gsClient.getGameServiceId());
+					Gdx.app.log(this.toString(), "is feature supported: " + gsClient.isFeatureSupported(IGameServiceClient.GameServiceFeature.ShowAchievementsUI));
+
+					loginScreen.userName.setText(gsClient.getPlayerDisplayName());
+				}
 				super.create();
 			}
 		}, getDefaultConfiguration());
