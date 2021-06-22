@@ -93,7 +93,8 @@ public class MyFirstMpDemoMain extends Game  {
 	@Override
 	public void pause() {
 		super.pause();
-		gsClient.pauseSession();
+		//gsClient.pauseSession();
+		//because ^ otherwise app keeps running in background
 	}
 
 	@Override

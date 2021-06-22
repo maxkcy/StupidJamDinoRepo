@@ -6,6 +6,7 @@ import com.max.myfirstmpdemo.Packets.RoomEnum;
 import com.max.myfirstmpdemo.Packets.RoomPacket;
 import com.max.myfirstmpdemo.Packets.TouchDownPacket;
 import com.max.myfirstmpdemo.Packets.TouchUpPacket;
+import com.max.myfirstmpdemo.Packets.UserNamePacket;
 import com.max.myfirstmpdemo.headless.Entities.PlayerEntity;
 
 
@@ -26,6 +27,9 @@ ServerMain serverMain;
         //System.out.println("Received packet: " + request + " from: RA " + webSocket.remoteAddress());
         Gdx.app.log(this.toString(), "Received packet: " + request + " from: Remote Address " + webSocket.remoteAddress());
 
+        if(request instanceof UserNamePacket){
+            serverMain.clientHash.get(webSocket).setUserName(((UserNamePacket) request).userName);
+        }
 
         if (request instanceof RoomPacket){
             //System.out.println("RoomPact RoomEnum: " + ((RoomPacket) request).roomEnum);

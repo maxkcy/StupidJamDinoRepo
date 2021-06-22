@@ -12,6 +12,7 @@ public class ClientID {
     private Item<Entity> clientPlayerItem;
     private ServerWebSocket client;
 
+    public String playerID;
 
     public ClientID(ServerWebSocket client) {
         this.client = client;
@@ -23,6 +24,8 @@ public class ClientID {
         BLUE;
     }
 
+    public Team team;
+
     public void setTeam(Team team) {
         this.team = team;
     }
@@ -31,9 +34,16 @@ public class ClientID {
         return team;
     }
 
-    public Team team;
+    public String userName;
 
-    public String playerID;
+    public String getUserName() {
+        return userName;
+    }
+
+    public ClientID setUserName(String userName) {
+        this.userName = userName;
+        return this;
+    }
 
     public GameRoom getClientGameRoom() {
         return clientGameRoom;

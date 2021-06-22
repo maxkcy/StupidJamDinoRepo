@@ -8,9 +8,12 @@ import com.badlogic.gdx.utils.Queue;
 import com.github.czyzby.websocket.serialization.impl.ManualSerializer;
 import com.max.myfirstmpdemo.Packets.BlueShirtInitPacket;
 import com.max.myfirstmpdemo.Packets.RedShirtInitPacket;
+import com.max.myfirstmpdemo.Packets.UserNameArrayPacket;
 import com.max.myfirstmpdemo.PacketsSerializer;
 import com.max.myfirstmpdemo.Tools;
 
+
+import java.util.ArrayList;
 
 import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
@@ -30,6 +33,7 @@ public class ServerMain extends Game {
     public HandleFrame handleFrame;// = new HandleFrame(this);
     public Array<GameRoom> gameRoomArray;// = new Array<>();
     public static ArrayMap<ServerWebSocket, ClientID> clientHash;
+    public ArrayList<String> userNames = new ArrayList<>();
 
     @Override
     public void create() {
@@ -93,6 +97,7 @@ public class ServerMain extends Game {
     private void launch(){
         httpServerOptions = new HttpServerOptions();
         httpServerOptions.setEnabledSecureTransportProtocols(httpServerOptions.getEnabledSecureTransportProtocols());
+
         httpServer = vertx.createHttpServer(httpServerOptions);
         System.out.println("Launching Server...");
 
@@ -103,10 +108,10 @@ public class ServerMain extends Game {
                 clientWSList.add(client);
                 clientHash.put(client, new ClientID(client));
 
-
                 client.frameHandler(new Handler<WebSocketFrame>(){
                     @Override
                     public void handle(WebSocketFrame event) {
+
                         handleFrame.handleFrame(client, event);
                         handleFrame.handleGame(client, event);
                     }
@@ -166,6 +171,21 @@ public class ServerMain extends Game {
             }
         });
         httpServer.listen(Tools.PORT);
+
+        vertx.setPeriodic(60000, new Handler<Long>() {
+            @Override
+            public void handle(Long event) {
+                userNames.clear();
+                for(ServerWebSocket client : clientWSList){
+                    userNames.add(clientHash.get(client).userName);
+                }
+                UserNameArrayPacket userNameArrayPacket = new UserNameArrayPacket(userNames.toArray(new String[0]));
+                for(ServerWebSocket client : clientWSList){
+                    client.writeFinalBinaryFrame((Buffer.buffer(ServerMain.manualSerializer.serialize(userNameArrayPacket))));
+                }
+
+            }
+        });
 
         System.out.println("Server Started \n" +
                 "listening for new connections...");

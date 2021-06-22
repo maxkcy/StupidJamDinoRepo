@@ -8,9 +8,14 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.List;
+import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.max.myfirstmpdemo.GameAssetsAndStuff.GameAssets;
 import com.max.myfirstmpdemo.MyFirstMpDemoMain;
@@ -18,12 +23,13 @@ import com.max.myfirstmpdemo.Packets.RoomEnum;
 import com.max.myfirstmpdemo.Packets.RoomPacket;
 
 public class MPHomeScreen extends ScreenAdapter {
-BitmapFont font;
+
 MyFirstMpDemoMain game;
 public GameAssets gameAssets;
 public Stage stage;
 public  Skin skin;
-public TextButton joinGameButtom;
+public TextButton joinGameButton;
+public List<String> list;
 
 
     public MPHomeScreen(MyFirstMpDemoMain game) {
@@ -34,32 +40,51 @@ public TextButton joinGameButtom;
 
     @Override
     public void show() {
-        font = gameAssets.getSgx().getFont("font");
-        stage = new Stage(new FitViewport(600,450));
+
+        stage = new Stage(new FitViewport(1000,450));
         Gdx.input.setInputProcessor(this.stage);
         skin = gameAssets.getDinoskin();
 
-       joinGameButtom = new TextButton("Join Game!!!", skin);
-        joinGameButtom.setPosition(300 - joinGameButtom.getWidth()/2, 225);
-        stage.addActor(joinGameButtom);
+        Table table = new Table();
+        table.setFillParent(true);
+
+        Label title = new Label(string, skin);
+        table.add(title).align(Align.center).expandX().expandY().colspan(2);
+        table.row();
+        joinGameButton = new TextButton("Join Game!!!", skin);
+        table.add(joinGameButton);
+
+        Label label = new Label("Connected Players", skin);
+        table.add(label).expandX();
+
+        table.row();
+        TextButton backToMenuButton = new TextButton("Back To Menu", skin);
+        table.add(backToMenuButton);
+
+
+        list = new List<>(skin);
+        ScrollPane scrollPane = new ScrollPane(list, skin);
+        table.add(scrollPane).growY().growX();
 
         ClickListener clicky = new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 RoomPacket roomPacket = new RoomPacket(RoomEnum.QUE);
                 //roomPacket.roomEnum = RoomEnum.QUE; //<-- redundant but works
-                if (game.clientWS.webSocket.isOpen() && joinGameButtom.isDisabled() == false) { //{joinGameButtom.removeListener(joinGameButtom.getClickListener());}
-                    joinGameButtom.setDisabled(true);
+                if (game.clientWS.webSocket.isOpen() && joinGameButton.isDisabled() == false) { //{joinGameButtom.removeListener(joinGameButtom.getClickListener());}
+                    joinGameButton.setDisabled(true);
                     game.clientWS.webSocket.send(roomPacket);
                     System.out.println("packet sent to server to add you to que...");
                     super.clicked(event, x, y);
                 }
             }
         };
-        joinGameButtom.addListener(clicky);
+        joinGameButton.addListener(clicky);
+
+        stage.addActor(table);
 
     }
-    public static String string = new String("hello \nthis is The Multiplayer Home/Lobby Screen");
+    public static String string = new String("Roar! This is The Multiplayer Lobby");
     @Override
     public void render(float delta) {
         Gdx.gl.glClearColor(.75f, .5f, .5f, 1);
@@ -68,11 +93,9 @@ public TextButton joinGameButtom;
         game.getBatch().setProjectionMatrix(stage.getViewport().getCamera().combined);
         game.getBatch().begin();
 
-        font.draw(game.getBatch(),string , 85, 75);
         game.getBatch().end();
 
             if(Gdx.input.isKeyPressed(Input.Keys.ANY_KEY)){
-                font.setColor(.75f,.75f,.5f,.75f);
                 string = "you pressed the " + Input.Keys.ANY_KEY  + " key  :) ...";
 
             }
@@ -87,6 +110,5 @@ public TextButton joinGameButtom;
     @Override
     public void dispose() {
     stage.dispose();
-    font.dispose();
     }
 }

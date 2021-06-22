@@ -12,6 +12,8 @@ import com.max.myfirstmpdemo.Packets.RedShirtInitPacket;
 import com.max.myfirstmpdemo.Packets.RoomPacket;
 import com.max.myfirstmpdemo.Packets.ScorePacket;
 import com.max.myfirstmpdemo.Packets.TouchDownPacket;
+import com.max.myfirstmpdemo.Packets.UserNameArrayPacket;
+import com.max.myfirstmpdemo.Packets.UserNamePacket;
 
 public class PacketsSerializer {
 
@@ -29,5 +31,7 @@ public class PacketsSerializer {
         serializer.register(new AsteroidStatePacket());
         serializer.register(new ScorePacket());
         serializer.register(new TouchUpPacket());
+        serializer.register(new UserNamePacket());
+        serializer.register(new UserNameArrayPacket());
     }
 }

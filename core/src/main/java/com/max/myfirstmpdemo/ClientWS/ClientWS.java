@@ -14,6 +14,7 @@ import com.max.myfirstmpdemo.MyFirstMpDemoMain;
 import com.max.myfirstmpdemo.Packets.CountDownPacket;
 import com.max.myfirstmpdemo.Packets.RoomEnum;
 import com.max.myfirstmpdemo.Packets.RoomPacket;
+import com.max.myfirstmpdemo.Packets.UserNamePacket;
 import com.max.myfirstmpdemo.PacketsSerializer;
 import com.max.myfirstmpdemo.Screens.MPHomeScreen;
 import com.max.myfirstmpdemo.Screens.RoomScreen;
@@ -50,6 +51,8 @@ public class ClientWS {
         webSocket.addListener(getListener());
         GameScreenListener gameScreenListener = new GameScreenListener(game);
         webSocket.addListener(gameScreenListener.getListener());
+        UpdatesChatListener updatesChatListener = new UpdatesChatListener(game);
+        webSocket.addListener(updatesChatListener.getListener());
         webSocket.connect();
 
     }
@@ -80,6 +83,7 @@ public class ClientWS {
                 System.out.println("Websocket connection opened");
                 Gdx.app.postRunnable(()-> game.setScreen(game.mpHomeScreen));
                 //game.setScreen(game.mpHomeScreen); <-don't use this
+                game.clientWS.webSocket.send(new UserNamePacket(game.loginScreen.userName.getText()));
                 return FULLY_HANDLED;
             }
 
@@ -130,12 +134,12 @@ public class ClientWS {
                     count++;
                     System.out.println("message from server: Sent back to MPHomeScreen/Lobby");
                     Gdx.app.postRunnable(()-> game.setScreen(game.mpHomeScreen));
-                    MPHomeScreen.string = ("Hello! This is The Multiplayer Home/Lobby Screen\nnumber of times played this session: " + count);
+                    MPHomeScreen.string = ("Roar! This is The Multiplayer Lobby\nnumber of times played this session: " + count);
                     game.roomScreen.redPlayers.clear();
                     game.roomScreen.bluePlayers.clear();
                     game.roomScreen.hud.setRedScore(0);
                     game.roomScreen.hud.setBlueScore(0);
-                    game.mpHomeScreen.joinGameButtom.setDisabled(false);
+                    game.mpHomeScreen.joinGameButton.setDisabled(false);
 
                 }
 
