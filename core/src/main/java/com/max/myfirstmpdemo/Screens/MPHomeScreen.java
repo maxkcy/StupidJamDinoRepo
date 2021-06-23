@@ -30,7 +30,10 @@ public Stage stage;
 public  Skin skin;
 public TextButton joinGameButton;
 public List<String> list;
-
+public static String string = "Pancakes! This is The Multiplayer Lobby";
+public Label title;
+public int numofconnected = 0;
+public Label connectedPlayersLabel;
 
     public MPHomeScreen(MyFirstMpDemoMain game) {
         this.game = game;
@@ -48,14 +51,14 @@ public List<String> list;
         Table table = new Table();
         table.setFillParent(true);
 
-        Label title = new Label(string, skin);
+        title = new Label(string, skin);
         table.add(title).align(Align.center).expandX().expandY().colspan(2);
         table.row();
         joinGameButton = new TextButton("Join Game!!!", skin);
         table.add(joinGameButton);
 
-        Label label = new Label("Connected Players", skin);
-        table.add(label).expandX();
+        connectedPlayersLabel = new Label("Connected Players: " + numofconnected, skin);
+        table.add(connectedPlayersLabel).expandX();
 
         table.row();
         TextButton backToMenuButton = new TextButton("Back To Menu", skin);
@@ -63,6 +66,7 @@ public List<String> list;
 
 
         list = new List<>(skin);
+        list.setAlignment(Align.center);
         ScrollPane scrollPane = new ScrollPane(list, skin);
         table.add(scrollPane).growY().growX();
 
@@ -84,7 +88,7 @@ public List<String> list;
         stage.addActor(table);
 
     }
-    public static String string = new String("Roar! This is The Multiplayer Lobby");
+
     @Override
     public void render(float delta) {
         Gdx.gl.glClearColor(.75f, .5f, .5f, 1);

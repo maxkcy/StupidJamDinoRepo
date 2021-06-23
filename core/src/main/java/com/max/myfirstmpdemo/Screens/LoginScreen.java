@@ -150,6 +150,7 @@ public class LoginScreen extends ScreenAdapter {
     @Override
     public void dispose() {
         super.dispose();
+        stage.dispose();
     }
 
     @Override

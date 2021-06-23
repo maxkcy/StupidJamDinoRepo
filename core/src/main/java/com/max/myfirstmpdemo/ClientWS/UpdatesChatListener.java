@@ -65,6 +65,8 @@ public class UpdatesChatListener {
             public boolean handle(WebSocket webSocket, UserNameArrayPacket userNameArrayPacket) {
                 game.mpHomeScreen.list.clearItems();
                 game.mpHomeScreen.list.setItems(userNameArrayPacket.userNamesArray);
+                game.mpHomeScreen.numofconnected = game.mpHomeScreen.list.getItems().size;
+                game.mpHomeScreen.connectedPlayersLabel.setText("Connected Players: " + game.mpHomeScreen.numofconnected);
                 return true;
             }
         });

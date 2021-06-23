@@ -16,6 +16,8 @@ public class RedPlayer {
     public Animation<TextureRegion> animation;
     public Animation<TextureRegion> previousAnimation;
  //   public Texture keyframeinit = new Texture(Gdx.files.internal("badlogic.png"));
+    public String userName;
+    public Handle handle;
 
 
     public Animation<TextureRegion> getAnimation() {
@@ -27,8 +29,9 @@ public class RedPlayer {
     }
 
 
-    public RedPlayer(MyFirstMpDemoMain game) {
+    public RedPlayer(MyFirstMpDemoMain game, String userName) {
         this.game = game;
+        this.userName = userName;
 
         keyframe = new Sprite(game.dinoSplashScreen.gameAssets.textureAtlas.createSprites().get(0));
         keyframe.setFlip(true, false);
@@ -42,6 +45,7 @@ public class RedPlayer {
         redIdleAnimation.setPlayMode(Animation.PlayMode.LOOP);
         redRunningAnimation.setPlayMode(Animation.PlayMode.LOOP);
         redKickingAnimation.setPlayMode(Animation.PlayMode.LOOP);
+        handle = new Handle(game, userName);
     }
 
     public void setKeyframe(Sprite keyframe) {
@@ -87,6 +91,8 @@ public class RedPlayer {
         //previousPosition = position; this doesn't work, because it points to the same memory reference
         previousPosition.x = position.x;
         previousPosition.y = position.y;
+
+       handle.update(keyframe.getX(), keyframe.getY());
     }
 
 }

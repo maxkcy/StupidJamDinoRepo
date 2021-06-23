@@ -7,6 +7,10 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ArrayMap;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.max.myfirstmpdemo.GameAssetsAndStuff.AsteroidBall;
@@ -33,6 +37,8 @@ TouchDownPacket touchDownPacket;
 TouchUpPacket touchUpPacket;
 public AsteroidBall asteroidBall;
 public Hud hud;
+public Stage stage;
+public TextField chatTextField;
 
     public RoomScreen(MyFirstMpDemoMain game) {
         this.game = game;
@@ -41,6 +47,7 @@ public Hud hud;
         bluePlayers = new ArrayMap<>();
         asteroidBall = new AsteroidBall(game);
         hud = new Hud(game);
+
     }
 
     @Override
@@ -50,13 +57,24 @@ public Hud hud;
         touchDownPacket = new TouchDownPacket();
         touchUpPacket = new TouchUpPacket();
         cam = new OrthographicCamera();
-        viewport = new FitViewport(600f, 400f, cam);
-        cam.position.set(viewport.getWorldWidth()/2, viewport.getWorldHeight()/2, 0);// put this line before assigning viewport to generate error
+        viewport = new FitViewport(600f, 400f + 100f, cam);
+        cam.position.set(viewport.getWorldWidth()/2, viewport.getWorldHeight()/2 - 100f, 0);// put this line before assigning viewport to generate error
         footBallPitchBackround = gameAssets.getFootballPitchBackground();
         footBallPitchBackround.setBounds(0,0, 600f, 400f);
         font = gameAssets.getSgx().getFont("font");
         message = "welcome to the game room";
         hud.init();
+        stage = new Stage(viewport);
+        stage.getCamera().position.set(viewport.getWorldWidth()/2, viewport.getWorldHeight()/2 - 100f, 0);
+        Gdx.input.setInputProcessor(this.stage);
+        chatTextField = new TextField("", gameAssets.getDinoskin());
+        chatTextField.setBounds(0,-100, viewport.getWorldWidth() - viewport.getWorldWidth()/5, 100f);
+        chatTextField.setAlignment(Align.left);
+        stage.addActor(chatTextField);
+
+        TextButton sendButton = new TextButton("SEND", gameAssets.getDinoskin());
+        sendButton.setBounds(viewport.getWorldWidth() - viewport.getWorldWidth()/5, -100, viewport.getWorldWidth()/5, 100f);
+        stage.addActor(sendButton);
     }
     boolean click;
     @Override
@@ -98,8 +116,10 @@ public Hud hud;
             click = false;
             Gdx.app.log(this.toString(), "TouchUpPacket sent");
         }
-        hud.update();
 
+        hud.update();
+        stage.act();
+        stage.draw();
     }
 
     @Override
@@ -107,6 +127,7 @@ public Hud hud;
         super.resize(width, height);
         viewport.update(width, height);
         hud.resize(width, height);
+        stage.getViewport().update(width, height);
     }
 
 
@@ -116,5 +137,6 @@ public Hud hud;
         super.dispose();
         redPlayers.clear();
         bluePlayers.clear();
+        stage.dispose();
     }
 }

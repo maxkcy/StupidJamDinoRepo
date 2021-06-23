@@ -113,6 +113,7 @@ public class GameWorld {
             for (ServerWebSocket client: playersList) {
                 RedShirtInitPacket redShirtInitPacket = redShirtInitPacketPool.obtain();
                 redShirtInitPacket.setIDKey(((PlayerEntity) playerItem.userData).playerSocket.toString());
+                redShirtInitPacket.setUserName(ServerMain.clientHash.get(((PlayerEntity) playerItem.userData).playerSocket).userName);
                 client.writeFinalBinaryFrame((Buffer.buffer(ServerMain.manualSerializer.serialize(redShirtInitPacket))));
                 Gdx.app.log(this.toString(), "redShirtInitPacket Sent to: IDKey: " + client.toString());
                 redShirtInitPacketPool.free(redShirtInitPacket);
@@ -132,6 +133,7 @@ public class GameWorld {
                 for (ServerWebSocket client: playersList) {
                     BlueShirtInitPacket blueShirtInitPacket = blueShirtInitPacketPool.obtain();
                     blueShirtInitPacket.setIDKey(((PlayerEntity) playerItem.userData).playerSocket.toString());
+                    blueShirtInitPacket.setUserName(ServerMain.clientHash.get(((PlayerEntity) playerItem.userData).playerSocket).userName);
                     client.writeFinalBinaryFrame((Buffer.buffer(ServerMain.manualSerializer.serialize(blueShirtInitPacket))));
                     Gdx.app.log(this.toString(), "blueShirtInitPacket Sent to: IDKey: " + client.toString());
                     blueShirtInitPacketPool.free(blueShirtInitPacket);

@@ -17,7 +17,8 @@ public class BluePlayer {
     public Animation<TextureRegion> previousAnimation;
     public Animation<TextureRegion> lastAnimation;
     //   public Texture keyframeinit = new Texture(Gdx.files.internal("badlogic.png"));
-
+    String userName;
+    Handle handle;
 
     public Animation<TextureRegion> getAnimation() {
         return animation;
@@ -27,8 +28,9 @@ public class BluePlayer {
         this.animation = animation;
     }
 
-    public BluePlayer(MyFirstMpDemoMain game) {
+    public BluePlayer(MyFirstMpDemoMain game, String userName) {
         this.game = game;
+        this.userName = userName;
 
         keyframe = new Sprite(game.dinoSplashScreen.gameAssets.textureAtlas.createSprites().get(0));
         keyframe.setFlip(true, false);
@@ -42,6 +44,8 @@ public class BluePlayer {
         blueIdleAnimation.setPlayMode(Animation.PlayMode.LOOP);
         blueRunningAnimation.setPlayMode(Animation.PlayMode.LOOP);
         blueKickingAnimation.setPlayMode(Animation.PlayMode.LOOP);
+
+        handle = new Handle(game, userName);
     }
 
     public void setKeyframe(Sprite keyframe) {
@@ -89,5 +93,7 @@ public class BluePlayer {
 
         previousPosition.x = position.x;
         previousPosition.y = position.y;
+
+        handle.update(keyframe.getX(), keyframe.getY());
     }
 }

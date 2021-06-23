@@ -100,7 +100,7 @@ public class MyFirstMpDemoMain extends Game  {
 	@Override
 	public void resume() {
 		super.resume();
-		gsClient.resumeSession();
+		if (gsClient != null){ gsClient.resumeSession(); }
 	}
 
 	public SpriteBatch getBatch() {

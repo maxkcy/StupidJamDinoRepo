@@ -130,6 +130,7 @@ public class ClientWS {
                 if(packet.roomEnum == RoomEnum.QUE){
                 System.out.println("message from server: Request received. Added to que");
                 MPHomeScreen.string = "Waiting in server's queue to join next game";
+                game.mpHomeScreen.title.setText(MPHomeScreen.string);
                 }else if(packet.roomEnum == RoomEnum.MPHOMELOBBY){
                     count++;
                     System.out.println("message from server: Sent back to MPHomeScreen/Lobby");

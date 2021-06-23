@@ -41,8 +41,8 @@ public class Hud implements Disposable {
 
     public void init(){
         cam = new OrthographicCamera();
-        viewport = new FitViewport(600,400, cam);
-        cam.position.set(viewport.getWorldWidth()/2, viewport.getWorldHeight()/2, 0);
+        viewport = new FitViewport(600,400 + 100, cam);
+        cam.position.set(viewport.getWorldWidth()/2, viewport.getWorldHeight()/2 - 100, 0);
     }
 
     //public String redScoreString  = "Red: " + redScore;

@@ -108,6 +108,10 @@ public class ServerMain extends Game {
                 clientWSList.add(client);
                 clientHash.put(client, new ClientID(client));
 
+                userNames.add(clientHash.get(client).userName);
+                UserNameArrayPacket userNameArrayPacket = new UserNameArrayPacket(userNames.toArray(new String[userNames.size()]));
+                client.writeFinalBinaryFrame((Buffer.buffer(ServerMain.manualSerializer.serialize(userNameArrayPacket))));
+
                 client.frameHandler(new Handler<WebSocketFrame>(){
                     @Override
                     public void handle(WebSocketFrame event) {
