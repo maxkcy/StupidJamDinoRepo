@@ -18,7 +18,8 @@ public class BluePlayer {
     public Animation<TextureRegion> lastAnimation;
     //   public Texture keyframeinit = new Texture(Gdx.files.internal("badlogic.png"));
     String userName;
-    Handle handle;
+   private Handle handle;
+    public Chat chat;
 
     public Animation<TextureRegion> getAnimation() {
         return animation;
@@ -46,6 +47,7 @@ public class BluePlayer {
         blueKickingAnimation.setPlayMode(Animation.PlayMode.LOOP);
 
         handle = new Handle(game, userName);
+        chat = new Chat(game);
     }
 
     public void setKeyframe(Sprite keyframe) {
@@ -95,5 +97,6 @@ public class BluePlayer {
         previousPosition.y = position.y;
 
         handle.update(keyframe.getX(), keyframe.getY());
+        chat.update(keyframe.getX(), keyframe.getY());
     }
 }

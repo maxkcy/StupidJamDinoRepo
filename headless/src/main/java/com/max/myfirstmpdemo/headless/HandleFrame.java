@@ -2,6 +2,7 @@ package com.max.myfirstmpdemo.headless;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.MathUtils;
+import com.max.myfirstmpdemo.Packets.ChatPacket;
 import com.max.myfirstmpdemo.Packets.RoomEnum;
 import com.max.myfirstmpdemo.Packets.RoomPacket;
 import com.max.myfirstmpdemo.Packets.TouchDownPacket;
@@ -81,6 +82,15 @@ ServerMain serverMain;
             if(ServerMain.clientHash.get(webSocket).getClientGameRoom().gameWorld.packetQueue.size() < ServerMain.clientHash.get(webSocket).getClientGameRoom().gameWorld.cap){
                 ((TouchUpPacket)request).setServerWebSocket(webSocket);
                 ServerMain.clientHash.get(webSocket).getClientGameRoom().gameWorld.packetQueue.add((TouchUpPacket)request);
+            }
+        }
+    }
+
+    public void handleChat(ServerWebSocket webSocket, final WebSocketFrame frame){
+        if(request instanceof ChatPacket){
+            if (ServerMain.clientHash.get(webSocket).getClientGameRoom().chatPacketQueue.size() < ServerMain.clientHash.get(webSocket).getClientGameRoom().cap){
+                ((ChatPacket) request).setPlayerID(ServerMain.clientHash.get(webSocket).playerID);
+                ServerMain.clientHash.get(webSocket).getClientGameRoom().chatPacketQueue.add((ChatPacket)request);
             }
         }
     }

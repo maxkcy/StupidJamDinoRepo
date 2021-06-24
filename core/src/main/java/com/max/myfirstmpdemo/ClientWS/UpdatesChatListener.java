@@ -1,10 +1,12 @@
 package com.max.myfirstmpdemo.ClientWS;
 
+import com.badlogic.gdx.Gdx;
 import com.github.czyzby.websocket.WebSocket;
 import com.github.czyzby.websocket.WebSocketHandler;
 import com.github.czyzby.websocket.data.WebSocketCloseCode;
 import com.github.czyzby.websocket.data.WebSocketException;
 import com.max.myfirstmpdemo.MyFirstMpDemoMain;
+import com.max.myfirstmpdemo.Packets.ChatPacket;
 import com.max.myfirstmpdemo.Packets.UserNameArrayPacket;
 
 import java.util.ArrayList;
@@ -62,11 +64,25 @@ public class UpdatesChatListener {
 
         webSocketHandler.registerHandler(UserNameArrayPacket.class, new WebSocketHandler.Handler<UserNameArrayPacket>() {
             @Override
-            public boolean handle(WebSocket webSocket, UserNameArrayPacket userNameArrayPacket) {
+            public boolean handle(final WebSocket webSocket, final UserNameArrayPacket userNameArrayPacket) {
                 game.mpHomeScreen.list.clearItems();
                 game.mpHomeScreen.list.setItems(userNameArrayPacket.userNamesArray);
                 game.mpHomeScreen.numofconnected = game.mpHomeScreen.list.getItems().size;
                 game.mpHomeScreen.connectedPlayersLabel.setText("Connected Players: " + game.mpHomeScreen.numofconnected);
+                return true;
+            }
+        });
+
+        webSocketHandler.registerHandler(ChatPacket.class, new WebSocketHandler.Handler<ChatPacket>() {
+            @Override
+            public boolean handle(final WebSocket webSocket,final ChatPacket chatPacket) {
+                if(game.roomScreen.redPlayers.containsKey(chatPacket.getPlayerID())){
+                    Gdx.app.log(this.toString(), "CHATPACKET.PlayerID has matched w/ a RedPlayer in redPlayers Array");
+                    game.roomScreen.redPlayers.get(chatPacket.getPlayerID()).chat.setChat(chatPacket.getChat());
+                }else if(game.roomScreen.bluePlayers.containsKey(chatPacket.getPlayerID())){
+                    Gdx.app.log(this.toString(), "CHATPACKET.PlayerID has matched w/ a BluePlayer in bluePlayers Array");
+                    game.roomScreen.bluePlayers.get(chatPacket.getPlayerID()).chat.setChat(chatPacket.getChat());
+                }else{ Gdx.app.log(this.toString(), "CHATPACKET... DID NOT MATCH ANY PLAYER"); }
                 return true;
             }
         });

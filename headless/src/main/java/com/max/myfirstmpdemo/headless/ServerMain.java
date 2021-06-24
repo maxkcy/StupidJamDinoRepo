@@ -33,7 +33,7 @@ public class ServerMain extends Game {
     public HandleFrame handleFrame;// = new HandleFrame(this);
     public Array<GameRoom> gameRoomArray;// = new Array<>();
     public static ArrayMap<ServerWebSocket, ClientID> clientHash;
-    public ArrayList<String> userNames = new ArrayList<>();
+    public ArrayList<String> userNames;
 
     @Override
     public void create() {
@@ -45,6 +45,7 @@ public class ServerMain extends Game {
         handleFrame = new HandleFrame(this);
         gameRoomArray = new Array<>();
         clientHash = new ArrayMap<>();
+        userNames = new ArrayList<>();
         this.launch();
 
 
@@ -109,7 +110,7 @@ public class ServerMain extends Game {
                 clientHash.put(client, new ClientID(client));
 
                 userNames.add(clientHash.get(client).userName);
-                UserNameArrayPacket userNameArrayPacket = new UserNameArrayPacket(userNames.toArray(new String[userNames.size()]));
+                UserNameArrayPacket userNameArrayPacket = new UserNameArrayPacket(userNames.toArray(new String[0]));
                 client.writeFinalBinaryFrame((Buffer.buffer(ServerMain.manualSerializer.serialize(userNameArrayPacket))));
 
                 client.frameHandler(new Handler<WebSocketFrame>(){
@@ -118,13 +119,14 @@ public class ServerMain extends Game {
 
                         handleFrame.handleFrame(client, event);
                         handleFrame.handleGame(client, event);
+                        handleFrame.handleChat(client, event);
                     }
                 });
 
                 client.closeHandler(new Handler<Void>() {
                     @Override
                     public void handle(Void event) {
-                        System.out.println("client disconnected (WS handler)"+ client.textHandlerID());
+                        System.out.println("client disconnected (WS handler)"+ client.toString()); //use to be client.textHandlerID but i changed it
                         handled = false;
                         waitingForGameQueue.forEach(serverWebSocket -> {
                             if(serverWebSocket == client){

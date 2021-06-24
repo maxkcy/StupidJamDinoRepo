@@ -7,9 +7,11 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ArrayMap;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -18,6 +20,7 @@ import com.max.myfirstmpdemo.GameAssetsAndStuff.BluePlayer;
 import com.max.myfirstmpdemo.GameAssetsAndStuff.GameAssets;
 import com.max.myfirstmpdemo.GameAssetsAndStuff.RedPlayer;
 import com.max.myfirstmpdemo.MyFirstMpDemoMain;
+import com.max.myfirstmpdemo.Packets.ChatPacket;
 import com.max.myfirstmpdemo.Packets.TouchUpPacket;
 import com.max.myfirstmpdemo.Packets.TouchDownPacket;
 
@@ -49,7 +52,7 @@ public TextField chatTextField;
         hud = new Hud(game);
 
     }
-
+    String chatMessage;
     @Override
     public void show() {
         super.show();
@@ -70,10 +73,27 @@ public TextField chatTextField;
         chatTextField = new TextField("", gameAssets.getDinoskin());
         chatTextField.setBounds(0,-100, viewport.getWorldWidth() - viewport.getWorldWidth()/5, 100f);
         chatTextField.setAlignment(Align.left);
+        chatTextField.setMaxLength(50);
         stage.addActor(chatTextField);
 
         TextButton sendButton = new TextButton("SEND", gameAssets.getDinoskin());
         sendButton.setBounds(viewport.getWorldWidth() - viewport.getWorldWidth()/5, -100, viewport.getWorldWidth()/5, 100f);
+        sendButton.addListener(new ClickListener(){
+
+            ChatPacket chatPacket = new ChatPacket();
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                chatMessage = chatTextField.getText();
+                chatTextField.setText("");
+               /* stupid testing code for (RedPlayer rp: redPlayers.values()){
+                    rp.chat.setChat(chatMessage);
+
+                }*/
+                chatPacket.setChat(chatMessage);
+                game.clientWS.webSocket.send(chatPacket);
+                Gdx.app.log(this.toString(), "Chat Packet sent with message: " + chatMessage);
+            }
+        });
         stage.addActor(sendButton);
     }
     boolean click;

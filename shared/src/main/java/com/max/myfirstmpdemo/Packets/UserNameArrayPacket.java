@@ -19,9 +19,8 @@ public class UserNameArrayPacket implements Transferable<UserNameArrayPacket> {
         return userNamesArray;
     }
 
-    public UserNameArrayPacket setUserNamesArray(String[] userNamesArray) {
+    public void setUserNamesArray(String[] userNamesArray) {
         this.userNamesArray = userNamesArray;
-        return this;
     }
 
     @Override

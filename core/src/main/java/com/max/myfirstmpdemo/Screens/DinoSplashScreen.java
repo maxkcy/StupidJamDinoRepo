@@ -64,6 +64,7 @@ public class DinoSplashScreen extends ScreenAdapter {
             game.loginScreen = new LoginScreen(game);
             game.mpHomeScreen = new MPHomeScreen(game);
             game.roomScreen = new RoomScreen(game);
+            game.mpHomeScreen.show(); // this doesnt do anything. doesnt fix the problem
             Gdx.app.postRunnable(() -> game.setScreen(game.loginScreen));
         }
     }

@@ -101,7 +101,7 @@ public Label connectedPlayersLabel;
 
             if(Gdx.input.isKeyPressed(Input.Keys.ANY_KEY)){
                 string = "you pressed the " + Input.Keys.ANY_KEY  + " key  :) ...";
-
+                //WTF is this BS^. well i will just leave it because i dont like to remove code
             }
         stage.draw();
         stage.act();

@@ -8,6 +8,8 @@ import com.badlogic.gdx.utils.Pool;
 import com.badlogic.gdx.utils.Queue;
 import com.dongbat.jbump.Item;
 import com.github.czyzby.websocket.serialization.Transferable;
+import com.github.czyzby.websocket.serialization.impl.ManualSerializer;
+import com.max.myfirstmpdemo.Packets.ChatPacket;
 import com.max.myfirstmpdemo.Packets.CountDownPacket;
 import com.max.myfirstmpdemo.Packets.RoomEnum;
 import com.max.myfirstmpdemo.Packets.RoomPacket;
@@ -31,6 +33,7 @@ public class GameRoom extends ScreenAdapter {
 
 
 
+
     //public CountDownPacket countDownPacket = new CountDownPacket(300.0f);
     //for testies and this is demo im going to create a pool to keep pooling fresh in my memory
     Pool<CountDownPacket> countDownPacketPool;// = new Pool<CountDownPacket>() {
@@ -39,6 +42,7 @@ public class GameRoom extends ScreenAdapter {
     public GameRoom(ServerMain serverMain) {
         this.serverMain = serverMain;
         playersList = new Array<>();
+        chatPacketQueue = new ConcurrentLinkedQueue<Transferable>();
         System.out.println("New GameRoom initiated");
     }
 
@@ -80,6 +84,7 @@ public class GameRoom extends ScreenAdapter {
         //super.render(delta);
         if (isActive) {
             gameWorld.update(delta);
+            chatPacketHandlingMethod();
 
             for (ServerWebSocket serverWebSocket :
                     playersList) {
@@ -120,6 +125,22 @@ public class GameRoom extends ScreenAdapter {
             super.dispose();
             countDownPacketPool.clear();
             roomPacketPool.clear();
+        }
+
+
+    public ConcurrentLinkedQueue<Transferable> chatPacketQueue;
+    int cap = 100;
+    Transferable element;
+        public void chatPacketHandlingMethod(){
+            for (int i = 0; i <= cap && (element = chatPacketQueue.poll()) != null; i++){
+               if (element instanceof ChatPacket){
+                    for(ServerWebSocket client : playersList){
+                        client.writeFinalBinaryFrame(Buffer.buffer(ServerMain.manualSerializer.serialize(element)));
+                        Gdx.app.log(this.toString(), "ChatPacket with message" + ((ChatPacket) element).getChat()+ "\nfrom: " + ((ChatPacket) element).getPlayerID() + " sent");
+                    }
+               }
+            }
+
         }
     }
 

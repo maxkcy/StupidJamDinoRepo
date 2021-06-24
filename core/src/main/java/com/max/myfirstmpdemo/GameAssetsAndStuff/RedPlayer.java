@@ -15,9 +15,10 @@ public class RedPlayer {
     public static Animation<TextureRegion> redKickingAnimation;
     public Animation<TextureRegion> animation;
     public Animation<TextureRegion> previousAnimation;
- //   public Texture keyframeinit = new Texture(Gdx.files.internal("badlogic.png"));
+    //public Texture keyframeinit = new Texture(Gdx.files.internal("badlogic.png"));
     public String userName;
-    public Handle handle;
+    private Handle handle;
+    public Chat chat;
 
 
     public Animation<TextureRegion> getAnimation() {
@@ -45,7 +46,9 @@ public class RedPlayer {
         redIdleAnimation.setPlayMode(Animation.PlayMode.LOOP);
         redRunningAnimation.setPlayMode(Animation.PlayMode.LOOP);
         redKickingAnimation.setPlayMode(Animation.PlayMode.LOOP);
+
         handle = new Handle(game, userName);
+        chat = new Chat(game);
     }
 
     public void setKeyframe(Sprite keyframe) {
@@ -92,7 +95,8 @@ public class RedPlayer {
         previousPosition.x = position.x;
         previousPosition.y = position.y;
 
-       handle.update(keyframe.getX(), keyframe.getY());
+        handle.update(keyframe.getX(), keyframe.getY());
+        chat.update(keyframe.getX(), keyframe.getY());
     }
 
 }

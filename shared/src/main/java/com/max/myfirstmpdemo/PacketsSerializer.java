@@ -5,6 +5,7 @@ import com.github.czyzby.websocket.serialization.impl.ManualSerializer;
 import com.max.myfirstmpdemo.Packets.AsteroidStatePacket;
 import com.max.myfirstmpdemo.Packets.BluePlayerStatePacket;
 import com.max.myfirstmpdemo.Packets.BlueShirtInitPacket;
+import com.max.myfirstmpdemo.Packets.ChatPacket;
 import com.max.myfirstmpdemo.Packets.CountDownPacket;
 import com.max.myfirstmpdemo.Packets.TouchUpPacket;
 import com.max.myfirstmpdemo.Packets.RedPlayerStatePacket;
@@ -33,5 +34,6 @@ public class PacketsSerializer {
         serializer.register(new TouchUpPacket());
         serializer.register(new UserNamePacket());
         serializer.register(new UserNameArrayPacket());
+        serializer.register(new ChatPacket());
     }
 }
