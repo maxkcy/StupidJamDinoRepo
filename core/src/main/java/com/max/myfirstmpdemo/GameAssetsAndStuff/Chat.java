@@ -34,16 +34,30 @@ public class Chat implements Disposable {
     float posX, posY;
     public void setPos(float posX, float posY) {
         this.posX = posX - font.getRegion().getRegionWidth()/2f + 13;
-        this.posY = posY + 150;
+        this.posY = posY + glyphLayout.height + 30;
     }
 
-
+    String chatMessage2 = "";
     public void update(float posX, float posY){
-        glyphLayout.setText(font, chatmessage);
+        if (chatmessage.length() > 10){
+            chatMessage2 = "";
+            for(int i = 1; i <= chatmessage.length()/10f; i++){
+                int subend = i*10;
+                chatMessage2 += (chatmessage.substring((i - 1) * 10 , subend) + "\n");
+            }
+                int remainder = chatmessage.length()%10;
+                if(chatmessage.length() - 1 - remainder != chatmessage.length() - 1){
+                chatMessage2 += chatmessage.substring(chatmessage.length() - 1 - remainder, chatmessage.length() - 1) + "\n";
+                }
+//0123456789
+        }else{chatMessage2 = chatmessage + "\n";}
+
+        glyphLayout.setText(font, chatMessage2);
         font.getRegion().setRegion(font.getRegion(), 0,0,(int)glyphLayout.width, 50);
         setPos(posX, posY);
-        font.draw(game.getBatch(), chatmessage, this.posX, this.posY);
+        font.draw(game.getBatch(), chatMessage2, this.posX, this.posY);
     }
+
 
     @Override
     public void dispose() {
