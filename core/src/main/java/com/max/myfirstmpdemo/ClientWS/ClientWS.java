@@ -118,8 +118,8 @@ public class ClientWS {
 
                     Gdx.app.postRunnable(()-> game.setScreen(game.roomScreen)); // really bad way of handling because you dont want to check every time, just send a different packet to switch to screen, then . but this is demo
                 }
-                RoomScreen.message = ("im not too lazy to make a new screen for game,\nyou are in it now," +
-                        "\nand here is the countdown time: " + packet.getTime());
+                //RoomScreen.message = (""+packet.getTime());
+                RoomScreen.message = String.format("%d:%d", (int)packet.getTime(), (int)(((float)packet.getTime() - (int)packet.getTime()) * 100));
                 return true;
             }
         });

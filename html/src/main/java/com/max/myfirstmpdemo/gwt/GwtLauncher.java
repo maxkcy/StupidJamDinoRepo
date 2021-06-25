@@ -60,15 +60,16 @@ public class GwtLauncher extends GwtApplication {
 			return new MyFirstMpDemoMain(){
 				@Override
 				public void create() {
-					if (gsClient == null){
+					/*if (gsClient == null){
 						gsClient = new GpgsClient().initialize("656291588145-p9k73044aoojidtaetaup9qnlh19cj8m.apps.googleusercontent.com", true);
 						Gdx.app.log(this.toString(), "Client Initialized");
-					}
+					}*/
 
 					gsvlistener = new IGameServiceListener() {
 						@Override
 						public void gsOnSessionActive() {
 							Gdx.app.log(this.toString(), "GPS connected/active");
+							loginScreen.userName.setText(gsClient.getPlayerDisplayName());
 						}
 
 						@Override

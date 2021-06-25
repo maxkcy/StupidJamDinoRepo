@@ -79,9 +79,11 @@ public class UpdatesChatListener {
                 if(game.roomScreen.redPlayers.containsKey(chatPacket.getPlayerID())){
                     Gdx.app.log(this.toString(), "CHATPACKET.PlayerID has matched w/ a RedPlayer in redPlayers Array");
                     game.roomScreen.redPlayers.get(chatPacket.getPlayerID()).chat.setChat(chatPacket.getChat());
+                    game.roomScreen.redPlayers.get(chatPacket.getPlayerID()).chatTimer = 0;
                 }else if(game.roomScreen.bluePlayers.containsKey(chatPacket.getPlayerID())){
                     Gdx.app.log(this.toString(), "CHATPACKET.PlayerID has matched w/ a BluePlayer in bluePlayers Array");
                     game.roomScreen.bluePlayers.get(chatPacket.getPlayerID()).chat.setChat(chatPacket.getChat());
+                    game.roomScreen.bluePlayers.get(chatPacket.getPlayerID()).chatTimer = 0;
                 }else{ Gdx.app.log(this.toString(), "CHATPACKET... DID NOT MATCH ANY PLAYER"); }
                 return true;
             }

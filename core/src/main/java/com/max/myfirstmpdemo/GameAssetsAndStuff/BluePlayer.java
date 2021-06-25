@@ -20,6 +20,7 @@ public class BluePlayer {
     String userName;
    private Handle handle;
     public Chat chat;
+    public float chatTimer = 0;
 
     public Animation<TextureRegion> getAnimation() {
         return animation;
@@ -97,6 +98,8 @@ public class BluePlayer {
         previousPosition.y = position.y;
 
         handle.update(keyframe.getX(), keyframe.getY());
-        chat.update(keyframe.getX(), keyframe.getY());
+        chatTimer += delta;
+        if (chatTimer < 5.0f){
+        chat.update(keyframe.getX(), keyframe.getY());}
     }
 }

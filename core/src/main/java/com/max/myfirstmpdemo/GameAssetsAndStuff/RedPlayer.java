@@ -19,6 +19,7 @@ public class RedPlayer {
     public String userName;
     private Handle handle;
     public Chat chat;
+    public float chatTimer = 0f;
 
 
     public Animation<TextureRegion> getAnimation() {
@@ -96,7 +97,9 @@ public class RedPlayer {
         previousPosition.y = position.y;
 
         handle.update(keyframe.getX(), keyframe.getY());
-        chat.update(keyframe.getX(), keyframe.getY());
+        chatTimer += delta;
+        if (chatTimer < 5.0f){
+        chat.update(keyframe.getX(), keyframe.getY());}
     }
 
 }

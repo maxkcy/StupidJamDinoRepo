@@ -47,7 +47,7 @@ public class Chat implements Disposable {
             }
                 int remainder = chatmessage.length()%10;
                 if(chatmessage.length() - 1 - remainder != chatmessage.length() - 1){
-                chatMessage2 += chatmessage.substring(chatmessage.length() - 1 - remainder, chatmessage.length() - 1) + "\n";
+                chatMessage2 += chatmessage.substring(chatmessage.length() - remainder, chatmessage.length()) + "\n";
                 }
 //0123456789
         }else{chatMessage2 = chatmessage + "\n";}

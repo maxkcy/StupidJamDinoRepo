@@ -109,7 +109,8 @@ public TextField chatTextField;
         game.getBatch().setProjectionMatrix(cam.combined);
         game.getBatch().begin();
         footBallPitchBackround.draw(game.getBatch());
-        font.draw(game.getBatch(), message, 85, 80);
+
+        font.draw(game.getBatch(), message, 250, 385);
 
         for (RedPlayer redPlayer : redPlayers.values()) {
             redPlayer.update(delta);
