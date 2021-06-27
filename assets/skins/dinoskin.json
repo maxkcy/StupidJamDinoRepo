@@ -17,6 +17,12 @@ com.badlogic.gdx.graphics.Color: {
 		b: 0
 		a: 1
 	}
+	RGBA_255_255_255_0: {
+		r: 1
+		g: 1
+		b: 1
+		a: 0
+	}
 	RGBA_255_255_255_255: {
 		r: 1
 		g: 1
@@ -27,7 +33,6 @@ com.badlogic.gdx.graphics.Color: {
 com.badlogic.gdx.scenes.scene2d.utils.TiledDrawable: {
 	KnobBefore1: {
 		region: KnobBefore
-		color: RGBA_255_255_255_255
 		minWidth: 50
 		minHeight: 25
 	}

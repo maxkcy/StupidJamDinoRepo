@@ -29,4 +29,18 @@ public class LoadingPaths {
         list.add(AnimationAtlasPaths.ASTEROID_NEW);
         return list;
     }
+
+    public List<String> getSoundPaths(){
+        List<String> list = new ArrayList<>();
+        list.add(SoundPaths.KICK);
+        list.add(SoundPaths.WHISTLE);
+        return list;
+    }
+
+    public List<String> getMusticPaths(){
+        List<String> list = new ArrayList<>();
+        list.add(SoundPaths.ADDING_THE_SUN);
+        list.add(SoundPaths.CROWD);
+        return list;
+    }
 }

@@ -2,6 +2,7 @@ package com.max.myfirstmpdemo.Screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -19,6 +20,7 @@ import com.max.myfirstmpdemo.GameAssetsAndStuff.AsteroidBall;
 import com.max.myfirstmpdemo.GameAssetsAndStuff.BluePlayer;
 import com.max.myfirstmpdemo.GameAssetsAndStuff.GameAssets;
 import com.max.myfirstmpdemo.GameAssetsAndStuff.RedPlayer;
+import com.max.myfirstmpdemo.LoadingPathsAndScreen.SoundPaths;
 import com.max.myfirstmpdemo.MyFirstMpDemoMain;
 import com.max.myfirstmpdemo.Packets.ChatPacket;
 import com.max.myfirstmpdemo.Packets.TouchUpPacket;
@@ -42,6 +44,7 @@ public AsteroidBall asteroidBall;
 public Hud hud;
 public Stage stage;
 public TextField chatTextField;
+//public Music crowdMusic;
 
     public RoomScreen(MyFirstMpDemoMain game) {
         this.game = game;
@@ -50,6 +53,8 @@ public TextField chatTextField;
         bluePlayers = new ArrayMap<>();
         asteroidBall = new AsteroidBall(game);
         hud = new Hud(game);
+        //crowdMusic = game.getAssetManager().get(SoundPaths.CROWD);
+        //crowdMusic.setLooping(true);
 
     }
     String chatMessage;

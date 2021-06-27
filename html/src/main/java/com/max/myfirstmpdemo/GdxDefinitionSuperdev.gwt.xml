@@ -8,4 +8,5 @@
 	<set-configuration-property name="xsiframe.failIfScriptTag" value="FALSE"/>
 
 	<inherits name="de.golfgl.gdxgamesvcs.gdx_gamesvcs_gwt" />
+	<inherits name="formic" />
 </module>

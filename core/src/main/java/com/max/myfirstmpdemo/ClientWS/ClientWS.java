@@ -22,6 +22,8 @@ import com.max.myfirstmpdemo.Tools;
 
 import java.net.InetAddress;
 
+import text.formic.Stringf;
+
 public class ClientWS {
 
    public WebSocket webSocket;
@@ -117,9 +119,13 @@ public class ClientWS {
                 if(game.getScreen() != game.roomScreen){
 
                     Gdx.app.postRunnable(()-> game.setScreen(game.roomScreen)); // really bad way of handling because you dont want to check every time, just send a different packet to switch to screen, then . but this is demo
+                   // if(!game.roomScreen.crowdMusic.isPlaying()){
+                    //    game.roomScreen.crowdMusic.play();
+                   // }
+                    //game.loginScreen.gameMusic.pause();
                 }
                 //RoomScreen.message = (""+packet.getTime());
-                RoomScreen.message = String.format("%d:%d", (int)packet.getTime(), (int)(((float)packet.getTime() - (int)packet.getTime()) * 100));
+                RoomScreen.message = Stringf.format("%d:%d", (int) packet.getTime(), (int) (((float) packet.getTime() - (int) packet.getTime()) * 100));
                 return true;
             }
         });
@@ -141,6 +147,10 @@ public class ClientWS {
                     game.roomScreen.hud.setRedScore(0);
                     game.roomScreen.hud.setBlueScore(0);
                     game.mpHomeScreen.joinGameButton.setDisabled(false);
+                   // game.roomScreen.crowdMusic.pause();
+                    //if(!game.loginScreen.gameMusic.isPlaying()){
+                   //     game.loginScreen.gameMusic.play();
+                   // }
 
                 }
 

@@ -60,6 +60,7 @@ public class DinoSplashScreen extends ScreenAdapter {
         stage.act();
         progressBar.setValue(game.getAssetManager().getProgress() * progressBar.getMaxValue());
         System.out.println(game.getAssetManager().getProgress() * progressBar.getMaxValue());
+        //game.getAssetManager().update();
         if (game.getAssetManager().isFinished() && progressBar.getValue() == progressBar.getMaxValue() && value > 2f) {
             game.loginScreen = new LoginScreen(game);
             game.mpHomeScreen = new MPHomeScreen(game);

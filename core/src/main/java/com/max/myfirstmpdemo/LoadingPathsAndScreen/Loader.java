@@ -1,5 +1,7 @@
 package com.max.myfirstmpdemo.LoadingPathsAndScreen;
 
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -15,6 +17,8 @@ public class Loader {
         loadSkinPaths();
         loadSpritePaths();
         loadAtlasPaths();
+        //loadSoundPaths();
+        //loadMusicPaths();
         //this.game.getAssetManager().finishLoading();
     }
 
@@ -47,6 +51,21 @@ public class Loader {
             }
         }
 
+        public void loadSoundPaths(){
+            for (String soundPath : loadingPaths.getSoundPaths()){
+                if (soundPath != null){
+                    game.getAssetManager().load(soundPath, Sound.class);
+                }
+            }
+        }
+
+        public void loadMusicPaths(){
+            for (String musicPath : loadingPaths.getMusticPaths()){
+                if (musicPath != null){
+                    game.getAssetManager().load(musicPath, Music.class);
+                }
+            }
+        }
 }
 
 

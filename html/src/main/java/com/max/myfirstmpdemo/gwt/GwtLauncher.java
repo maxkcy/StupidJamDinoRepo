@@ -12,6 +12,7 @@ import com.max.myfirstmpdemo.MyFirstMpDemoMain;
 
 import de.golfgl.gdxgamesvcs.GpgsClient;
 import de.golfgl.gdxgamesvcs.IGameServiceClient;
+import de.golfgl.gdxgamesvcs.IGameServiceIdMapper;
 import de.golfgl.gdxgamesvcs.IGameServiceListener;
 
 /** Launches the GWT application. */
@@ -19,22 +20,23 @@ public class GwtLauncher extends GwtApplication {
 	GwtApplicationConfiguration cfg;
 	private static final int PADDING = 100;
 
+
 	@Override
-		public GwtApplicationConfiguration getConfig () {
-			Window.enableScrolling(false);
-			Window.setMargin("0");
-			Window.addResizeHandler(new ResizeListener());
+	public GwtApplicationConfiguration getConfig() {
+		Window.enableScrolling(false);
+		Window.setMargin("0");
+		Window.addResizeHandler(new ResizeListener());
 
-			// Resizable application, uses available space in browser
-			//return new GwtApplicationConfiguration(true);
-			// Fixed size application:
+		// Resizable application, uses available space in browser
+		//return new GwtApplicationConfiguration(true);
+		// Fixed size application:
 
-			return new GwtApplicationConfiguration(Window.getClientWidth() - PADDING, Window.getClientHeight() /*- PADDING*/);
-			//int w = Window.getClientWidth() - PADDING;
-			//int h = Window.getClientHeight() - PADDING;
-			//cfg = new GwtApplicationConfiguration(w, h);
-			//return cfg;
-		}
+		return new GwtApplicationConfiguration(Window.getClientWidth() - PADDING, Window.getClientHeight() /*- PADDING*/);
+		//int w = Window.getClientWidth() - PADDING;
+		//int h = Window.getClientHeight() - PADDING;
+		//cfg = new GwtApplicationConfiguration(w, h);
+		//return cfg;
+	}
 
 	class ResizeListener implements ResizeHandler {
 		@Override
@@ -52,71 +54,83 @@ public class GwtLauncher extends GwtApplication {
 		}
 	}
 
-		@Override
-		public ApplicationListener createApplicationListener () {
-			GwtWebSockets.initiate();
+	@Override
+	public ApplicationListener createApplicationListener() {
+		GwtWebSockets.initiate();
+
+		MyFirstMpDemoMain game = new MyFirstMpDemoMain();
+
+		//game.initGWTgpgs();
+
+		game.gsvlistener = new IGameServiceListener() {
+			@Override
+			public void gsOnSessionActive() {
+				Gdx.app.log(this.toString(), "GPS connected/active");
+
+				//game.loginScreen.userName.setText(game.gsClient.getPlayerDisplayName());
+			}
+
+			@Override
+			public void gsOnSessionInactive() {
+				Gdx.app.log(this.toString(), "GPS inactive");
+			}
+
+			@Override
+			public void gsShowErrorToUser(GsErrorType et, String msg, Throwable t) {
+				Gdx.app.log(this.toString(), "error: " + et + "Message: " + msg + "\nthrowable: " + t);
+				//Gdx.app.log(this.toString(), "is session logged in?: " );//+ game.gsClient.logIn());
+			}
+		};
 
 
-			return new MyFirstMpDemoMain(){
-				@Override
-				public void create() {
-					/*if (gsClient == null){
-						gsClient = new GpgsClient().initialize("656291588145-p9k73044aoojidtaetaup9qnlh19cj8m.apps.googleusercontent.com", true);
-						Gdx.app.log(this.toString(), "Client Initialized");
-					}*/
-
-					gsvlistener = new IGameServiceListener() {
-						@Override
-						public void gsOnSessionActive() {
-							Gdx.app.log(this.toString(), "GPS connected/active");
-							loginScreen.userName.setText(gsClient.getPlayerDisplayName());
-						}
-
-						@Override
-						public void gsOnSessionInactive() {
-							Gdx.app.log(this.toString(), "GPS inactive");
-						}
-
-						@Override
-						public void gsShowErrorToUser(GsErrorType et, String msg, Throwable t) {
-							Gdx.app.log(this.toString(), "error: " + et + "Message: " + msg + "\nthrowable: " + t);
-							Gdx.app.log(this.toString(), "is session logged in?: "+ gsClient.logIn());
-
-						}
-					};
-
-					// for getting callbacks from the client
-					gsClient.setListener(gsvlistener);
-
-					// establish a connection to the game service without error messages or login screens
-					gsClient.resumeSession();
 
 
-					if(gsClient.isConnectionPending() == true){
-						boolean waitingtoconnect = true;
-						Gdx.app.log(this.toString(), "is connection pending? " + gsClient.isConnectionPending());
-						while(waitingtoconnect){
-							if(gsClient.isConnectionPending() == false){
-								waitingtoconnect = false;
-								Gdx.app.log(this.toString(), "is connection pending now? " + gsClient.isConnectionPending());
-							}
-						}
+		// for getting callbacks from the client
+		if (game.gsClient != null) {
+			game.gsClient.setListener(game.gsvlistener);
+			game.gsClient.resumeSession();
 
+			if (game.gsClient.isConnectionPending() == true) {
+				boolean waitingtoconnect = true;
+
+				while (waitingtoconnect) {
+					if (game.gsClient.isConnectionPending() == false) {
+						waitingtoconnect = false;
 					}
-					Gdx.app.log(this.toString(), "is Session Active? " + gsClient.isSessionActive());
-					if(gsClient.isSessionActive() == false){
-						//game.gsClient.logOff();
-						Gdx.app.log(this.toString(),"GS_ERROR: Cannot sign in: No credentials or session id given.");
-						//game.gsClient.logIn();
-					}
+				};
+			}
+			//Gdx.app.log(this.toString(), "is Session Active? ");
+			if (game.gsClient.isSessionActive() == false) {
+				//game.gsClient.logOff();
+				//Gdx.app.log(this.toString(), "GS_ERROR: Cannot sign in: No credentials or session id given.");
+				//game.gsClient.logIn();
+			}
 
-					Gdx.app.log(this.toString(),"player display name: " + gsClient.getPlayerDisplayName());
-					Gdx.app.log(this.toString(),"Game Service Id: " + gsClient.getGameServiceId());
-					Gdx.app.log(this.toString(),"is feature supported: " + gsClient.isFeatureSupported(IGameServiceClient.GameServiceFeature.ShowAchievementsUI));
-					super.create();
-				}
-			};
+			//Gdx.app.log(this.toString(), "player display name: ");// + game.gsClient.getPlayerDisplayName());
+			//Gdx.app.log(this.toString(), "Game Service Id: ");// + game.gsClient.getGameServiceId());
+			//Gdx.app.log(this.toString(), "is feature supported: ");// + game.gsClient.isFeatureSupported(IGameServiceClient.GameServiceFeature.ShowAchievementsUI));
+			//game.loginScreen.userName.setText(game.gsClient.getPlayerDisplayName());
+		}
+		if(game.gsClient == null) {
+			game.gsClient = new GpgsClient().initialize("5060513955-id751dk44kkie320kvl94fk81johekt5.apps.googleusercontent.com", true);
+			game.gsClient.setListener(game.gsvlistener);
+
+			if (game.gsClient.isConnectionPending() == true) {
+				boolean waitingtoconnect = true;
+
+				while (waitingtoconnect) {
+					if (game.gsClient.isConnectionPending() == false) {
+						waitingtoconnect = false;
+					}
+				};
+			}
+
+			if (game.gsClient.isSessionActive() == false) {
+
+			}
+
 		}
 
-
+		return game;
+	}
 }

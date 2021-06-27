@@ -2,6 +2,7 @@ package com.max.myfirstmpdemo.Screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -15,7 +16,9 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.max.myfirstmpdemo.GameAssetsAndStuff.GameAssets;
+import com.max.myfirstmpdemo.LoadingPathsAndScreen.SoundPaths;
 import com.max.myfirstmpdemo.MyFirstMpDemoMain;
+
 
 import de.golfgl.gdxgamesvcs.GpgsClient;
 import de.golfgl.gdxgamesvcs.IGameServiceClient;
@@ -31,9 +34,14 @@ public class LoginScreen extends ScreenAdapter {
     }
     public TextField userName;
     private boolean continueWithGoogle = true;
+    //public Music gameMusic;
 
     @Override
     public void show() {
+        //gameMusic = game.getAssetManager().get(SoundPaths.ADDING_THE_SUN);
+        //gameMusic.setLooping(true);
+        //gameMusic.play();
+
         gameAssets = new GameAssets(game);
         stage = new Stage(new FitViewport(700,700));
         skin = gameAssets.getDinoskin();
@@ -52,8 +60,8 @@ public class LoginScreen extends ScreenAdapter {
         table1.add(label).expandX();
 
         userName = new TextField("Handle", skin);
-        table1.add(userName).expandX().align(Align.center);
-        userName.setAlignment(Align.center);
+        table1.add(userName).expandX().align(Align.left);
+        userName.setAlignment(Align.left);
         table.add(table1);
 
         table.row();
@@ -77,63 +85,13 @@ public class LoginScreen extends ScreenAdapter {
         table.row();
 
        TextButton GoogletextButton = new TextButton("Continue with Google?", skin, "google");
-        GoogletextButton.addListener(new ClickListener(){
+       GoogletextButton.addListener(new ClickListener(){
                                         @Override
                                         public void clicked(InputEvent event, float x, float y) {
-                                            if (continueWithGoogle) {
-                                                if (game.gsClient == null) {
-                                                    game.gsClient = new GpgsClient().initialize("FinalDinoTest",
-                                                            Gdx.files.internal("gpgs-client_secret_5.json"), true);
-                                                    Gdx.app.log(this.toString(), "Client Initialized");
-                                                    System.out.println(Gdx.files.internal("gpgs-client_secret_3.json").readString());//one.. 3 works
-                                                } else {
-                                                    game.gsClient.resumeSession();
-                                                }
-                                                game.gsClient.setListener(game.gsvlistener);
-                                                if (game.gsClient.isConnectionPending() == true) {
-                                                    boolean waitingtoconnect = true;
-                                                    Gdx.app.log(this.toString(), "is connection pending? " + game.gsClient.isConnectionPending());
-                                                    while (waitingtoconnect) {
-                                                        if (game.gsClient.isConnectionPending() == false) {
-                                                            waitingtoconnect = false;
-                                                            Gdx.app.log(this.toString(), "is connection pending now? " + game.gsClient.isConnectionPending());
-                                                        }
-                                                    }
-
-                                                }
-
-
-                                                Gdx.app.log(this.toString(), "is Session Active? " + game.gsClient.isSessionActive());
-
-
-                                                if (game.gsClient.isSessionActive() == false) {
-                                                    //game.gsClient.logOff();
-                                                    Gdx.app.log(this.toString(), "GS_ERROR: Cannot sign in: No credentials or session id given.");
-                                                    //game.gsClient.logIn();
-                                                } else {
-
-                                                    Gdx.app.log(this.toString(), "player display name: " + game.gsClient.getPlayerDisplayName());
-                                                    Gdx.app.log(this.toString(), "Game Service Id: " + game.gsClient.getGameServiceId());
-                                                    Gdx.app.log(this.toString(), "is feature supported: " + game.gsClient.isFeatureSupported(IGameServiceClient.GameServiceFeature.ShowAchievementsUI));
-
-
-                                                    Gdx.app.log(this.toString(), "Google Login button clicked");
-                                                    Gdx.app.log(this.toString(), "is session logged in? " + game.gsClient.logIn());
-                                                    game.gsClient.logIn();
-                                                    Gdx.app.log(this.toString(), "is session logged in now? " + game.gsClient.logIn());
-                                                    Gdx.app.log(this.toString(), "" + game.gsClient.getPlayerDisplayName());
-                                                    Gdx.app.log(this.toString(), "" + game.gsClient.getGameServiceId());
-                                                    userName.setText(game.gsClient.getPlayerDisplayName());
-
-                                                    GoogletextButton.setText("Log Out?");
-                                                    continueWithGoogle = false;
-                                                }
-                                            }else{
-                                                GoogletextButton.setText("Continue With Google");
-                                                continueWithGoogle = true;
-                                                game.gsClient.logOff();
-                                                userName.setText("Handle");
-                                            }
+                                            //stuffinsidegooglebuttonclick();
+                                            if (game.gsClient.isSessionActive()) {
+                                                userName.setText(game.gsClient.getPlayerDisplayName());
+                                            }else{userName.setText("error, not connected");}
                                         }
 
                                     }
@@ -165,4 +123,61 @@ public class LoginScreen extends ScreenAdapter {
     public void resize(int width, int height) {
         stage.getViewport().update(width, height);
     }
+
+/*public void stuffinsidegooglebuttonclick(){
+    if (continueWithGoogle) {
+        if (game.gsClient == null) {
+            //game.gsClient = new GpgsClient().initialize("DinoBall", Gdx.files.internal("gpgs-client_secret_5.json"), true);
+            // this wont work, have to use lancher for ->game.gsClient = new GpgsClient().initialize("5060513955-6tahimttphfq1jgcv81jo6u3jne43ht1.apps.googleusercontent.com", true);
+            Gdx.app.log(this.toString(), "Client Initialized");
+
+        } else {
+            game.gsClient.resumeSession();
+        }
+        game.gsClient.setListener(game.gsvlistener);
+        if (game.gsClient.isConnectionPending() == true) {
+            boolean waitingtoconnect = true;
+            Gdx.app.log(this.toString(), "is connection pending? " + game.gsClient.isConnectionPending());
+            while (waitingtoconnect) {
+                if (game.gsClient.isConnectionPending() == false) {
+                    waitingtoconnect = false;
+                    Gdx.app.log(this.toString(), "is connection pending now? " + game.gsClient.isConnectionPending());
+                }
+            }
+
+        }
+
+
+        Gdx.app.log(this.toString(), "is Session Active? " + game.gsClient.isSessionActive());
+
+
+        if (game.gsClient.isSessionActive() == false) {
+            //game.gsClient.logOff();
+            Gdx.app.log(this.toString(), "GS_ERROR: Cannot sign in: No credentials or session id given.");
+            //game.gsClient.logIn();
+        } else {
+
+            Gdx.app.log(this.toString(), "player display name: " + game.gsClient.getPlayerDisplayName());
+            Gdx.app.log(this.toString(), "Game Service Id: " + game.gsClient.getGameServiceId());
+            Gdx.app.log(this.toString(), "is feature supported: " + game.gsClient.isFeatureSupported(IGameServiceClient.GameServiceFeature.ShowAchievementsUI));
+
+
+            Gdx.app.log(this.toString(), "Google Login button clicked");
+            Gdx.app.log(this.toString(), "is session logged in? " + game.gsClient.logIn());
+            game.gsClient.logIn();
+            Gdx.app.log(this.toString(), "is session logged in now? " + game.gsClient.logIn());
+            Gdx.app.log(this.toString(), "" + game.gsClient.getPlayerDisplayName());
+            Gdx.app.log(this.toString(), "" + game.gsClient.getGameServiceId());
+            userName.setText(game.gsClient.getPlayerDisplayName());
+
+            GoogletextButton.setText("Log Out?");
+            continueWithGoogle = false;
+        }
+    }else{
+        GoogletextButton.setText("Continue With Google");
+        continueWithGoogle = true;
+        game.gsClient.logOff();
+        userName.setText("Handle");
+    }
+}*/
 }

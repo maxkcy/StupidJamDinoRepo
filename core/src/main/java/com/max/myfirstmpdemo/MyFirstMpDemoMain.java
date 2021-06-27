@@ -13,6 +13,8 @@ import com.max.myfirstmpdemo.Screens.MPHomeScreen;
 import com.max.myfirstmpdemo.Screens.RoomScreen;
 import com.max.myfirstmpdemo.Screens.SplashScreen;
 
+
+import de.golfgl.gdxgamesvcs.GpgsClient;
 import de.golfgl.gdxgamesvcs.IGameServiceClient;
 import de.golfgl.gdxgamesvcs.IGameServiceListener;
 
@@ -84,7 +86,8 @@ public class MyFirstMpDemoMain extends Game  {
 		splashScreen.dispose();
 		loginScreen.dispose();
 		mpHomeScreen.dispose();
-		//clientWS.dispose();
+
+		clientWS.dispose();
 		gsClient.logOff();
 		super.dispose();
 
@@ -111,5 +114,7 @@ public class MyFirstMpDemoMain extends Game  {
 		return assetManager;
 	}
 
-
+	public void initGWTgpgs(){
+		//gsClient = new GpgsClient().initialize("Dinoball", Gdx.files.internal("gpgs-client_secret_5_web.json"), true);
+	}
 }
