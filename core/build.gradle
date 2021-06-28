@@ -19,6 +19,6 @@ dependencies {
 	api 'com.github.tommyettinger:formic:0.1.4'
 
 
-	api "de.golfgl.gdxgamesvcs:gdx-gamesvcs-html-gpgs:$gamesvcsVersion"
-	api "de.golfgl.gdxgamesvcs:gdx-gamesvcs-html-gpgs:$gamesvcsVersion:sources"
+	//api "de.golfgl.gdxgamesvcs:gdx-gamesvcs-html-gpgs:$gamesvcsVersion"
+	//api "de.golfgl.gdxgamesvcs:gdx-gamesvcs-html-gpgs:$gamesvcsVersion:sources"
 }

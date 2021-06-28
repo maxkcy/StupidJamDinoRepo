@@ -100,7 +100,7 @@ public class GameWorld {
 
     public void intiTeamRed(){
         for (int i = 0; i < playersList.size; i = i + 2) {
-            Item<Entity> playerItem = new Item<>(new PlayerEntity(100, 100 + 100 / 2 * i));
+            Item<Entity> playerItem = new Item<>(new PlayerEntity(200, 200 + 100 / 2 * i));
             Gdx.app.log(String.valueOf(this),playerItem.userData.position.x + " " + playerItem.userData.position.y);
             ((PlayerEntity) playerItem.userData).startPos.x = playerItem.userData.position.x;
             ((PlayerEntity) playerItem.userData).startPos.y = playerItem.userData.position.y;
@@ -122,7 +122,7 @@ public class GameWorld {
     }
         public void initTeamBlue(){
             for (int i = 1; i < playersList.size; i = i + 2) {
-                Item<Entity> playerItem = new Item<>(new PlayerEntity(300, 100 + 100 / 2 * (i - 1)));
+                Item<Entity> playerItem = new Item<>(new PlayerEntity(400, 200 + 100 / 2 * (i - 1)));
                 ((PlayerEntity) playerItem.userData).startPos.x = playerItem.userData.position.x;
                 ((PlayerEntity) playerItem.userData).startPos.y = playerItem.userData.position.y;
                 ((PlayerEntity) playerItem.userData).playerSocket = playersList.get(i);

@@ -34,13 +34,13 @@ public class LoginScreen extends ScreenAdapter {
     }
     public TextField userName;
     private boolean continueWithGoogle = true;
-    //public Music gameMusic;
+    public Music gameMusic;
 
     @Override
     public void show() {
-        //gameMusic = game.getAssetManager().get(SoundPaths.ADDING_THE_SUN);
-        //gameMusic.setLooping(true);
-        //gameMusic.play();
+        gameMusic = game.dinoSplashScreen.gameAssets.addingTheSun;
+        gameMusic.setLooping(true);
+        gameMusic.play();
 
         gameAssets = new GameAssets(game);
         stage = new Stage(new FitViewport(700,700));
@@ -50,7 +50,7 @@ public class LoginScreen extends ScreenAdapter {
         Table table = new Table();
         table.setFillParent(true);
 
-        Label label = new Label("It's Time To LOGIN!", skin);
+        Label label = new Label("Login to save yourself from extinction.", skin);
         table.add(label);
 
         table.row();
@@ -59,7 +59,7 @@ public class LoginScreen extends ScreenAdapter {
         label = new Label("What should other dinos call you?", skin);
         table1.add(label).expandX();
 
-        userName = new TextField("Handle", skin);
+        userName = new TextField("Guest", skin);
         table1.add(userName).expandX().align(Align.left);
         userName.setAlignment(Align.left);
         table.add(table1);
@@ -89,8 +89,10 @@ public class LoginScreen extends ScreenAdapter {
                                         @Override
                                         public void clicked(InputEvent event, float x, float y) {
                                             //stuffinsidegooglebuttonclick();
+                                            if(game.gsClient != null){
                                             if (game.gsClient.isSessionActive()) {
                                                 userName.setText(game.gsClient.getPlayerDisplayName());
+                                                }
                                             }else{userName.setText("error, not connected");}
                                         }
 

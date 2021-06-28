@@ -17,8 +17,8 @@ public class Loader {
         loadSkinPaths();
         loadSpritePaths();
         loadAtlasPaths();
-        //loadSoundPaths();
-        //loadMusicPaths();
+        loadSoundPaths();
+        loadMusicPaths();
         //this.game.getAssetManager().finishLoading();
     }
 

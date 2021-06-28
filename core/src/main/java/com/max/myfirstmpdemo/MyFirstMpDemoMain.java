@@ -86,7 +86,6 @@ public class MyFirstMpDemoMain extends Game  {
 		splashScreen.dispose();
 		loginScreen.dispose();
 		mpHomeScreen.dispose();
-
 		clientWS.dispose();
 		gsClient.logOff();
 		super.dispose();

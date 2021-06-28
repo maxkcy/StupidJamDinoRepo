@@ -121,6 +121,7 @@ public class GameScreenListener {
                                 if (game.roomScreen.redPlayers.get(redPlayerStatePacket.getClientId()).animation != game.roomScreen.redPlayers.get(redPlayerStatePacket.getClientId()).redKickingAnimation) {
                                     game.roomScreen.redPlayers.get(redPlayerStatePacket.getClientId()).animation = game.roomScreen.redPlayers.get(redPlayerStatePacket.getClientId()).redKickingAnimation;
                                     Gdx.app.log(this.toString(), "animation  set to kicking animation " + game.roomScreen.redPlayers.get(redPlayerStatePacket.getClientId()).animation);
+                                    game.dinoSplashScreen.gameAssets.kick.play();
                                 }
                                 break;
                             }
@@ -194,6 +195,7 @@ public class GameScreenListener {
                                 if (game.roomScreen.bluePlayers.get(bluePlayerStatePacket.getClientId()).animation != game.roomScreen.bluePlayers.get(bluePlayerStatePacket.getClientId()).blueKickingAnimation) {
                                     game.roomScreen.bluePlayers.get(bluePlayerStatePacket.getClientId()).animation = game.roomScreen.bluePlayers.get(bluePlayerStatePacket.getClientId()).blueKickingAnimation;
                                     Gdx.app.log(this.toString(), "animation  set to kicking animation " + game.roomScreen.bluePlayers.get(bluePlayerStatePacket.getClientId()).animation);
+                                    game.dinoSplashScreen.gameAssets.kick.play();
                                 }
                                 break;
                             }
@@ -241,6 +243,7 @@ public class GameScreenListener {
                         break;
                     }
                 }
+                game.dinoSplashScreen.gameAssets.whistle.play();
                 Gdx.app.log(this.toString(), "ScorePacket End");
                 return true;
             }

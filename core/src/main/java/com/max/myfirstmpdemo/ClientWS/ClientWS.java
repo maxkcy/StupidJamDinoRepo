@@ -39,9 +39,9 @@ public class ClientWS {
         String wss;
         wss = WebSockets.toSecureWebSocketUrl("maxkcyfun.fun", 443);
         System.out.println(wss);
-        //webSocket = WebSockets.newSocket(wss + "myws"); //switch servers bt selecting a websocket and commenting out the other
+        webSocket = WebSockets.newSocket(wss + "myws"); //switch servers bt selecting a websocket and commenting out the other
 
-        webSocket = WebSockets.newSocket(WebSockets.toWebSocketUrl("localhost", Tools.PORT));
+        //webSocket = WebSockets.newSocket(WebSockets.toWebSocketUrl("localhost", Tools.PORT));
 
         System.out.println(webSocket.isSecure());
         //inorder for the initialization error to go away call
@@ -115,14 +115,15 @@ public class ClientWS {
         webSocketHandler.registerHandler(CountDownPacket.class, new WebSocketHandler.Handler<CountDownPacket>() {
             @Override
             public boolean handle(final WebSocket webSocket, final CountDownPacket packet) {
-                //Gdx.app.log(this.toString(), "message from server: Countdown Packet" + "Time is: " + packet.getTime());
+                Gdx.app.log(this.toString(), "message from server: Countdown Packet" + "Time is: " + packet.getTime());
                 if(game.getScreen() != game.roomScreen){
 
                     Gdx.app.postRunnable(()-> game.setScreen(game.roomScreen)); // really bad way of handling because you dont want to check every time, just send a different packet to switch to screen, then . but this is demo
-                   // if(!game.roomScreen.crowdMusic.isPlaying()){
-                    //    game.roomScreen.crowdMusic.play();
-                   // }
-                    //game.loginScreen.gameMusic.pause();
+                    if(!game.roomScreen.crowdMusic.isPlaying()){
+                        game.roomScreen.crowdMusic.play();
+                   }
+                    game.loginScreen.gameMusic.pause();
+                    game.dinoSplashScreen.gameAssets.whistle.play();
                 }
                 //RoomScreen.message = (""+packet.getTime());
                 RoomScreen.message = Stringf.format("%d:%d", (int) packet.getTime(), (int) (((float) packet.getTime() - (int) packet.getTime()) * 100));
@@ -147,10 +148,10 @@ public class ClientWS {
                     game.roomScreen.hud.setRedScore(0);
                     game.roomScreen.hud.setBlueScore(0);
                     game.mpHomeScreen.joinGameButton.setDisabled(false);
-                   // game.roomScreen.crowdMusic.pause();
-                    //if(!game.loginScreen.gameMusic.isPlaying()){
-                   //     game.loginScreen.gameMusic.play();
-                   // }
+                    game.roomScreen.crowdMusic.pause();
+                    if(!game.loginScreen.gameMusic.isPlaying()){
+                        game.loginScreen.gameMusic.play();
+                    }
 
                 }
 

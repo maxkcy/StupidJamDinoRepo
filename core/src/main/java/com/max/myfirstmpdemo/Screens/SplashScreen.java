@@ -106,5 +106,6 @@ public class SplashScreen implements Screen {
     @Override
     public void dispose() {
         stage.dispose();
+        gameAssets.dispose();
     }
 }

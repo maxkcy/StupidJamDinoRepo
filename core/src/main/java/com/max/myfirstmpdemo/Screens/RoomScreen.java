@@ -44,7 +44,7 @@ public AsteroidBall asteroidBall;
 public Hud hud;
 public Stage stage;
 public TextField chatTextField;
-//public Music crowdMusic;
+public Music crowdMusic;
 
     public RoomScreen(MyFirstMpDemoMain game) {
         this.game = game;
@@ -53,8 +53,8 @@ public TextField chatTextField;
         bluePlayers = new ArrayMap<>();
         asteroidBall = new AsteroidBall(game);
         hud = new Hud(game);
-        //crowdMusic = game.getAssetManager().get(SoundPaths.CROWD);
-        //crowdMusic.setLooping(true);
+        crowdMusic = game.dinoSplashScreen.gameAssets.crowd;
+        crowdMusic.setLooping(true);
 
     }
     String chatMessage;

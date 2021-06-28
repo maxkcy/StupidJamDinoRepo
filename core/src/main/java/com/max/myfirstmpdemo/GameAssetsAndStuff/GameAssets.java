@@ -1,15 +1,20 @@
 package com.max.myfirstmpdemo.GameAssetsAndStuff;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.utils.Disposable;
 import com.max.myfirstmpdemo.LoadingPathsAndScreen.AnimationAtlasPaths;
 import com.max.myfirstmpdemo.LoadingPathsAndScreen.SkinPaths;
+import com.max.myfirstmpdemo.LoadingPathsAndScreen.SoundPaths;
 import com.max.myfirstmpdemo.LoadingPathsAndScreen.SpritePaths;
 import com.max.myfirstmpdemo.MyFirstMpDemoMain;
 
-public class GameAssets {
+public class GameAssets implements Disposable {
     MyFirstMpDemoMain game;
 
     private Skin cleanCrispy;
@@ -18,6 +23,11 @@ public class GameAssets {
     TextureAtlas textureAtlas;
     TextureAtlas asteroidTextureAtlas;
     TextureAtlas asteroidNewAtlas;
+    public Sound kick;
+    public Sound whistle;
+    public Music addingTheSun;
+    public Music crowd;
+
 
 
     private Sprite footballPitchBackground;
@@ -45,6 +55,11 @@ public class GameAssets {
         asteroidTextureAtlas = game.getAssetManager().get(AnimationAtlasPaths.ASTEROID_ATLAS, TextureAtlas.class);
         asteroidNewAtlas = game.getAssetManager().get(AnimationAtlasPaths.ASTEROID_NEW, TextureAtlas.class);
 
+        kick = game.getAssetManager().get(SoundPaths.KICK);
+        whistle = game.getAssetManager().get(SoundPaths.WHISTLE);
+        addingTheSun = game.getAssetManager().get(SoundPaths.ADDING_THE_SUN);
+        crowd = game.getAssetManager().get(SoundPaths.CROWD);
+
     }
     public Skin getCleanCrispy() { return cleanCrispy; }
     public Skin getSgx() { return sgx; }
@@ -53,4 +68,9 @@ public class GameAssets {
     }
     public Skin getDinoskin() {return dinoskin;}
 
+
+    @Override
+    public void dispose() {
+
+    }
 }

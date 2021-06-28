@@ -61,12 +61,13 @@ public class DinoSplashScreen extends ScreenAdapter {
         progressBar.setValue(game.getAssetManager().getProgress() * progressBar.getMaxValue());
         System.out.println(game.getAssetManager().getProgress() * progressBar.getMaxValue());
         //game.getAssetManager().update();
-        if (game.getAssetManager().isFinished() && progressBar.getValue() == progressBar.getMaxValue() && value > 2f) {
+        if (game.getAssetManager().isFinished() && progressBar.getValue() == progressBar.getMaxValue() && value > 6f) {
             game.loginScreen = new LoginScreen(game);
             game.mpHomeScreen = new MPHomeScreen(game);
             game.roomScreen = new RoomScreen(game);
-            game.mpHomeScreen.show(); // this doesnt do anything. doesnt fix the problem
-            Gdx.app.postRunnable(() -> game.setScreen(game.loginScreen));
+            //game.mpHomeScreen.show(); // this doesnt do anything. doesnt fix the problem
+            if (value > 6f){
+            Gdx.app.postRunnable(() -> game.setScreen(game.loginScreen));}
         }
     }
 
